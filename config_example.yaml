@@ -1,0 +1,37 @@
+# ------------------------------------------------------------------
+# 1. Rename this file to "config.yaml" (same folder).
+# 2. Fill in the `telegram` section and create your "user_description".
+# ------------------------------------------------------------------
+
+api:
+  search_url: "https://civiweb-api-prd.azurewebsites.net/api/Offers/search"
+  # Public key embedded in the Business France website
+  # Only change it if Business France rotates it (I logged this error so I should catch it and I will do my best to update it as soon as possible :) )
+  api_key: "l+KwpoLPiXlsjxNT/NQ2iOFz8+iuygxAODs9FeAEWYM="
+
+scraping:
+  max_days: 14        # how far back offers are kept and scraped
+  batch_size: 200     # offers fetched per API request, I suggest you keep this as is (time complexity doesn't change much by getting it lower)
+
+relevance:
+  # In order to get your personal API key, follow these instructions:
+  # 1- create a Google AI studio account (https://aistudio.google.com/welcome)
+  # 2- then create an API key (https://aistudio.google.com/api-keys)
+  # 3- paste the API key bellow
+  gemini_api_key: ""
+
+  # Describe your profile: what job you are looking for, what you can do, any other specifics (python packages you know, cloud environments, ...)
+  user_description: ""
+
+telegram:
+  # in order to get your bot_token (takes about 1-2 minutes):  
+  # 1- install telegram 
+  # 2- create a conversation with "@BotFather"
+  # 3- follow its instructions to setup your own bot and get your token
+  # 4- paste the bot token bellow
+  bot_token: "PASTE_YOUR_BOT_TOKEN_HERE"   
+  # in order to get your chat_id:  
+  # 1- join the telegram channel "@fredykardianchannel" (needed in order for step 2, don't worry it is perfectly safe. If you feel unsure, start at step 2 and you will see for yourself)
+  # 2- text "@get_id_bot"
+  # 3- paste the chat_id bellow
+  chat_id: "PASTE_YOUR_CHAT_ID_HERE"       
