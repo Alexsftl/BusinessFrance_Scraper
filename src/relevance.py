@@ -1,0 +1,101 @@
+import requests, json
+import time
+import logging
+
+log = logging.getLogger(__name__)
+
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+GEMINI_DELAY = 5
+GEMINI_MAX_RETRIES = 5
+GEMINI_RETRY_WAIT = 15
+
+def offer_text(offer):
+    parts = [
+        offer.get("missionTitle"),
+        offer.get("missionDescription"),
+        offer.get("missionProfile"),
+        offer.get("organizationName"),
+    ]
+    return "\n".join(p for p in parts if p)
+
+
+
+def is_relevant_llm(offer, config_dict):
+    profile = config_dict["USER_PROFILE"]
+    text = offer_text(offer)
+
+    prompt = (
+        "You decide if a job offer matches a candidate's profile.\n"
+        "Answer with a single word: YES or NO.\n\n"
+        "Candidate profile:\n" + profile + "\n\n"
+        "Job offer:\n" + text + "\n\n"
+        "Does this offer match the profile? Answer YES or NO."
+    )
+
+    url = GEMINI_URL.format(model="gemini-3.1-flash-lite")
+
+    for attempt in range(GEMINI_MAX_RETRIES):
+        try:
+            r = requests.post(
+                url,
+                headers={
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": config_dict["GEMINI_API_KEY"],
+                },
+                json={"contents": [{"parts": [{"text": prompt}]}]},
+                timeout=30,
+            )
+ 
+            if r.status_code == 429:
+                log.warning(
+                    "Gemini rate limit hit, waiting %ds (retry %d/%d)...",
+                    GEMINI_RETRY_WAIT, attempt + 1, GEMINI_MAX_RETRIES,
+                )
+                time.sleep(GEMINI_RETRY_WAIT)
+                continue
+ 
+            r.raise_for_status()
+            data = r.json()
+            answer = data["candidates"][0]["content"]["parts"][0]["text"]
+            return answer.strip().upper().startswith("YES")
+        except requests.exceptions.RequestException as e:
+            raise ValueError(str(e))
+ 
+    raise ValueError("Gemini still rate limited after several retries")
+
+
+def is_relevant(offer, config_dict):
+    return is_relevant_llm(offer, config_dict)
+
+
+def filter_relevant(offers, config_dict):
+    relevant = {}
+    items = list(offers.items())
+    total = len(items)
+
+    for i, (offer_id, offer) in enumerate(items):
+
+        if offer.get("relevancy_check") != "unchecked":
+            continue
+ 
+        try:
+            match = is_relevant(offer, config_dict)
+        except Exception as e:
+            log.error("RELEVANCE ERROR - Google Gemini error: %s", e)
+            continue
+ 
+        if match:
+            offer["relevancy_check"] = "relevant"
+            relevant[offer_id] = offer
+        else:
+            offer["relevancy_check"] = "not_relevant"
+ 
+        log.info(
+            "Checked offer %d/%d (%s): %s",
+            i + 1, total, offer_id, offer["relevancy_check"],
+        )
+
+        if i < total - 1:
+            time.sleep(GEMINI_DELAY)
+ 
+    return relevant
