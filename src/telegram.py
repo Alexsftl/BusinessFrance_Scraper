@@ -1,10 +1,12 @@
-import requests, json
+import requests
 import logging
+import time
 
 log = logging.getLogger(__name__)
 
 TELEGRAM_URL = "https://api.telegram.org/bot{token}/sendMessage"
-
+TELEGRAM_DELAY = 5
+TELEGRAM_MAX_RETRIES = 5
 OFFER_BASE_URL = "https://mon-vie-via.businessfrance.fr/offres/{offer_id}"
 
 
@@ -57,11 +59,30 @@ def send_offer(offer_id, offer, config_dict):
 
 def send_offers(offers, config_dict):
     for offer_id, offer in offers.items():
-        try:
-            send_offer(offer_id, offer, config_dict)
-        except requests.exceptions.RequestException as e:
-            log.error(f"TELEGRAM ERROR - failed to send offer {offer_id}: {e}")
-            continue
-        except Exception as e:
-            log.exception(f"TELEGRAM ERROR - non API related error {offer_id}")
-            continue
+        for attempt in range(TELEGRAM_MAX_RETRIES):
+            try:
+                send_offer(offer_id, offer, config_dict)
+                break
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 429:
+                    log.warning(
+                        f"TELEGRAM WARNING - Telegram rate limit hit, waiting {TELEGRAM_DELAY}s (retry {attempt + 1}/{TELEGRAM_MAX_RETRIES})...",
+                    )
+                    time.sleep(TELEGRAM_DELAY)
+                    continue
+                else:
+                    log.warning(
+                        f"TELEGRAM WARNING - Telegram error {e.response.status_code}",
+                    )
+                    time.sleep(TELEGRAM_DELAY)
+                    continue
+            except requests.exceptions.RequestException as e:
+                log.error(f"TELEGRAM ERROR - failed to send offer {offer_id}: {e}")
+                time.sleep(TELEGRAM_DELAY)
+                continue
+            except Exception as e:
+                log.exception(f"TELEGRAM ERROR - non API related error {offer_id}")
+                time.sleep(TELEGRAM_DELAY)
+                continue
+
+        time.sleep(1)

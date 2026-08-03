@@ -31,8 +31,7 @@ def within_active_window():
     now = datetime.now(ZoneInfo("Europe/Paris"))
     is_weekday = now.weekday() < 5             
     is_active_hour = START_HOUR <= now.hour <= END_HOUR
-    is_even_hour = now.hour % 2 == 0
-    return is_weekday and is_active_hour and is_even_hour
+    return is_weekday and is_active_hour
 
 
 def run():
@@ -61,7 +60,7 @@ def run():
 
     # 2 - Relevance
     log.info("Beginning relevancy check...")
-    relevant = filter_relevant(merged, config_dict)
+    relevant = filter_relevant(merged, config_dict, save_func=save_offers)
     log.info(f"--- {len(relevant)} newly relevant offer(s) to notify.")
 
     # 3 - Telegram part
