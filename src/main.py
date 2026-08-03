@@ -61,7 +61,7 @@ def run():
 
     # 2 - Relevance
     log.info("Beginning relevancy check...")
-    relevant = filter_relevant(merged, config_dict)
+    relevant = filter_relevant(merged, config_dict, save_fn=save_offers)
     log.info(f"--- {len(relevant)} newly relevant offer(s) to notify.")
 
     # 3 - Telegram part

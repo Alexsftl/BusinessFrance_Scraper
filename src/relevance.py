@@ -8,6 +8,7 @@ GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:ge
 GEMINI_DELAY = 5
 GEMINI_MAX_RETRIES = 5
 GEMINI_RETRY_WAIT = 10
+SAVE_EVERY = 10
 
 def offer_text(offer):
     parts = [
@@ -34,64 +35,73 @@ def is_relevant_llm(offer, config_dict):
 
     url = GEMINI_URL.format(model="gemini-3.1-flash-lite")
 
-    for attempt in range(GEMINI_MAX_RETRIES):
-        try:
-            r = requests.post(
-                url,
-                headers={
-                    "Content-Type": "application/json",
-                    "x-goog-api-key": config_dict["GEMINI_API_KEY"],
-                },
-                json={"contents": [{"parts": [{"text": prompt}]}]},
-                timeout=30,
-            )
- 
-            if r.status_code == 429:
-                log.warning(
-                    f"Gemini rate limit hit, waiting {GEMINI_RETRY_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...",
-                )
-                time.sleep(GEMINI_RETRY_WAIT)
-                continue
- 
-            r.raise_for_status()
-            data = r.json()
-            answer = data["candidates"][0]["content"]["parts"][0]["text"]
-            return answer.strip().upper().startswith("YES")
-        except requests.exceptions.RequestException as e:
-            raise ValueError(str(e))
- 
-    raise ValueError("Gemini still rate limited after several retries")
+    r = requests.post(
+        url,
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": config_dict["GEMINI_API_KEY"],
+        },
+        json={"contents": [{"parts": [{"text": prompt}]}]},
+        timeout=30,
+    )
+
+    r.raise_for_status()
+
+    data = r.json()
+    answer = data["candidates"][0]["content"]["parts"][0]["text"]
+
+    return answer.strip().upper().startswith("YES")
 
 
-def is_relevant(offer, config_dict):
-    return is_relevant_llm(offer, config_dict)
 
-
-def filter_relevant(offers, config_dict):
+def filter_relevant(offers, config_dict, save_func=None):
     relevant = {}
     items = list(offers.items())
     total = len(items)
+    checked_since_save = 0
 
     for i, (offer_id, offer) in enumerate(items):
-
+        
         if offer.get("relevancy_check") != "unchecked":
             continue
- 
-        try:
-            match = is_relevant(offer, config_dict)
-        except Exception as e:
-            log.error(f"RELEVANCE ERROR - Google Gemini error: {e}")
+
+        match = None
+
+        for attempt in range(GEMINI_MAX_RETRIES):
+            try:
+                match = is_relevant_llm(offer, config_dict)
+                break
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 429:
+                    match = None
+                    log.error(f"RELEVANCE WARNING - Gemini rate limit hit, waiting {GEMINI_RETRY_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...")
+                    time.sleep(GEMINI_RETRY_WAIT)
+                    continue
+            except Exception as e:
+                match = None
+                log.error(f"RELEVANCE ERROR - failed to send offer {offer_id}: {e}")
+                time.sleep(GEMINI_RETRY_WAIT)
+                continue
+
+        if match is None:
             continue
- 
-        if match:
+        elif match:
             offer["relevancy_check"] = "relevant"
             relevant[offer_id] = offer
         else:
             offer["relevancy_check"] = "not_relevant"
- 
-        log.info(f"Checked offer {i + 1}/{total} ({offer_id}):{offer['relevancy_check']}")
+
+        log.info(f"Checked offer {i + 1}/{total} ({offer_id}): {offer['relevancy_check']}")
+
+        checked_since_save += 1
+        if save_func is not None and checked_since_save >= SAVE_EVERY:
+            save_func(offers)
+            checked_since_save = 0
 
         if i < total - 1:
-            time.sleep(GEMINI_DELAY)
- 
+            time.sleep(1)
+
+    if save_func is not None:
+        save_func(offers)
+
     return relevant
