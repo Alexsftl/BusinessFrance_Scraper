@@ -70,6 +70,12 @@ def send_offers(offers, config_dict):
                     )
                     time.sleep(TELEGRAM_DELAY)
                     continue
+                else:
+                    log.warning(
+                        f"TELEGRAM WARNING - Telegram error {e.response.status_code}",
+                    )
+                    time.sleep(TELEGRAM_DELAY)
+                    continue
             except requests.exceptions.RequestException as e:
                 log.error(f"TELEGRAM ERROR - failed to send offer {offer_id}: {e}")
                 time.sleep(TELEGRAM_DELAY)
@@ -79,4 +85,4 @@ def send_offers(offers, config_dict):
                 time.sleep(TELEGRAM_DELAY)
                 continue
 
-            time.sleep(1)
+        time.sleep(1)
