@@ -8,7 +8,7 @@ on:
   # manual trigger for testing from the Actions tab
   workflow_dispatch:
 
-# allow the job to push the updated store back to the repo
+# allow the job to push the updated datas back to the repo
 permissions:
   contents: write
 
@@ -39,8 +39,6 @@ jobs:
           python - <<'PY'
           import os, yaml, pathlib
 
-          # values are passed via env and dumped with yaml.safe_dump, so any
-          # quotes or special characters in the profile are escaped correctly
           config = {
               "api": {
                   # public key embedded in the Business France website
