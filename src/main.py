@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 
 import logging
 import sys
+import os
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +39,9 @@ def run():
     # 0 - Initialization
     setup_logging()
 
-    if not within_active_window():
+    force_run = os.environ.get("FORCE_RUN") == "1"
+
+    if not force_run and not within_active_window():
         log.info("Outside active window (Paris time), skipping run.")
         return
     

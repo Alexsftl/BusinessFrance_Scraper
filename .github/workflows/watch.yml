@@ -1,14 +1,10 @@
 name: VIE Watcher
 
 on:
-  # keeps only even Paris hours in 08:00-20:00, so the effective schedule is every
-  # 2 hours, 08:00-20:00 Paris, weekdays. Minute 17 (not 00) to avoid traffic
   schedule:
     - cron: "17 6-19 * * 1-5"
-  # manual trigger for testing from the Actions tab
   workflow_dispatch:
 
-# allow the job to push the updated datas back to the repo
 permissions:
   contents: write
 
@@ -31,14 +27,18 @@ jobs:
 
       - name: Build config.yaml
         env:
+          # sensitive values -> repository Secrets
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # non-sensitive preference -> repository Variable
           USER_DESCRIPTION: ${{ vars.USER_DESCRIPTION }}
         run: |
           python - <<'PY'
           import os, yaml, pathlib
 
+          # values are passed via env and dumped with yaml.safe_dump, so any
+          # quotes or special characters in the profile are escaped correctly
           config = {
               "api": {
                   # public key embedded in the Business France website
@@ -65,12 +65,18 @@ jobs:
           PY
 
       - name: Run the watcher
+        env:
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
         run: python -m src.main
 
       - name: Persist the store
         run: |
           git config user.name "vie-watcher-bot"
           git config user.email "actions@github.com"
+          if [ ! -f data/offers.json ]; then
+            echo "No store file was produced this run; nothing to persist."
+            exit 0
+          fi
           git add data/offers.json
           if git diff --staged --quiet; then
             echo "No store changes to commit."
