@@ -6,7 +6,6 @@ env/
 
 __pycache__/
 *.py[cod]
-config.py
 
 .vscode/
 
@@ -17,4 +16,3 @@ config.yaml
 
 data/*
 !data/offers.json
-config.example.yaml
