@@ -94,7 +94,7 @@ def business_france_call_request(url, payload, headers):
 
 
 
-def scrape_offers(config_dict, since, batch=200):
+def scrape_offers(config_dict, since, stored, batch=200):
     offers = {}
 
     stop = False
@@ -110,6 +110,8 @@ def scrape_offers(config_dict, since, batch=200):
             log.warning(f"Unexpected scraped data: {data}")
             break
 
+        batch_had_new = False
+
         for dic in data:
 
             startBroadcastDate = datetime.fromisoformat(
@@ -122,6 +124,10 @@ def scrape_offers(config_dict, since, batch=200):
                 stop = True
                 continue
 
+            offer_id = str(dic["id"])
+            if offer_id not in stored:
+                batch_had_new = True 
+
             offers[str(dic["id"])] = {
                 "organizationName": dic.get("organizationName"),
                 "missionTitle": dic.get("missionTitle"),
@@ -132,6 +138,9 @@ def scrape_offers(config_dict, since, batch=200):
                 "startBroadcastDate": str(startBroadcastDate),
                 "relevancy_check": "unchecked"
             }
+            
+        if not batch_had_new:          
+            stop = True
 
         skip += batch
 

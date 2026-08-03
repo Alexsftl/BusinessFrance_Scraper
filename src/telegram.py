@@ -1,7 +1,7 @@
 import requests, json
 import logging
 
-log = logging.Logger(__name__)
+log = logging.getLogger(__name__)
 
 TELEGRAM_URL = "https://api.telegram.org/bot{token}/sendMessage"
 

@@ -89,7 +89,7 @@ def filter_relevant(offers, config_dict):
         else:
             offer["relevancy_check"] = "not_relevant"
  
-        log.info(f"Checked offer {i + 1}/{total} ({offer_id}):{offer["relevancy_check"]}")
+        log.info(f"Checked offer {i + 1}/{total} ({offer_id}):{offer['relevancy_check']}")
 
         if i < total - 1:
             time.sleep(GEMINI_DELAY)
