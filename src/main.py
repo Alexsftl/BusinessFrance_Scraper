@@ -23,7 +23,7 @@ def run():
     merged = {**stored, **fresh}
 
     # 2 - Relevance
-    relevant = filter_relevant(fresh, config_dict)
+    relevant = filter_relevant(merged, config_dict)
 
 
     # 3 - Telegram part
