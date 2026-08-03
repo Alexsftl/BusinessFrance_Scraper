@@ -1,0 +1,98 @@
+name: VIE Watcher
+
+on:
+  # keeps only even Paris hours in 08:00-20:00, so the effective schedule is every
+  # 2 hours, 08:00-20:00 Paris, weekdays. Minute 17 (not 00) to avoid traffic
+  schedule:
+    - cron: "17 6-19 * * 1-5"
+  # manual trigger for testing from the Actions tab
+  workflow_dispatch:
+
+# allow the job to push the updated store back to the repo
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    concurrency: vie-watcher-store
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build config.yaml
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          USER_DESCRIPTION: ${{ vars.USER_DESCRIPTION }}
+        run: |
+          python - <<'PY'
+          import os, yaml, pathlib
+
+          # values are passed via env and dumped with yaml.safe_dump, so any
+          # quotes or special characters in the profile are escaped correctly
+          config = {
+              "api": {
+                  # public key embedded in the Business France website
+                  "search_url": "https://civiweb-api-prd.azurewebsites.net/api/Offers/search",
+                  "api_key": "l+KwpoLPiXlsjxNT/NQ2iOFz8+iuygxAODs9FeAEWYM=",
+              },
+              "scraping": {
+                  "max_days": 14,
+                  "batch_size": 200,
+              },
+              "relevance": {
+                  "gemini_api_key": os.environ["GEMINI_API_KEY"],
+                  "user_description": os.environ["USER_DESCRIPTION"],
+              },
+              "telegram": {
+                  "bot_token": os.environ["TELEGRAM_BOT_TOKEN"],
+                  "chat_id": os.environ["TELEGRAM_CHAT_ID"],
+              },
+          }
+          pathlib.Path("config.yaml").write_text(
+              yaml.safe_dump(config, sort_keys=False, allow_unicode=True),
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Run the watcher
+        run: python -m src.main
+
+      - name: Persist the store
+        run: |
+          git config user.name "vie-watcher-bot"
+          git config user.email "actions@github.com"
+          git add data/offers.json
+          if git diff --staged --quiet; then
+            echo "No store changes to commit."
+          else
+            git commit -m "Update offers store [skip ci]"
+            git push
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          curl -s -X POST \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true" \
+            --data-urlencode text="<b>VIE Watcher run failed</b>
+          The scheduled run did not complete. See the logs:
+          ${RUN_URL}"

@@ -14,3 +14,7 @@ config.py
 Thumbs.db
 
 config.yaml
+
+data/*
+!data/offers.json
+config.example.yaml
