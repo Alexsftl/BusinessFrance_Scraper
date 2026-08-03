@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 GEMINI_DELAY = 5
 GEMINI_MAX_RETRIES = 5
-GEMINI_RETRY_WAIT = 15
+GEMINI_RETRY_WAIT = 10
 
 def offer_text(offer):
     parts = [
@@ -48,8 +48,7 @@ def is_relevant_llm(offer, config_dict):
  
             if r.status_code == 429:
                 log.warning(
-                    "Gemini rate limit hit, waiting %ds (retry %d/%d)...",
-                    GEMINI_RETRY_WAIT, attempt + 1, GEMINI_MAX_RETRIES,
+                    f"Gemini rate limit hit, waiting {GEMINI_RETRY_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...",
                 )
                 time.sleep(GEMINI_RETRY_WAIT)
                 continue
@@ -81,7 +80,7 @@ def filter_relevant(offers, config_dict):
         try:
             match = is_relevant(offer, config_dict)
         except Exception as e:
-            log.error("RELEVANCE ERROR - Google Gemini error: %s", e)
+            log.error(f"RELEVANCE ERROR - Google Gemini error: {e}")
             continue
  
         if match:
@@ -90,10 +89,7 @@ def filter_relevant(offers, config_dict):
         else:
             offer["relevancy_check"] = "not_relevant"
  
-        log.info(
-            "Checked offer %d/%d (%s): %s",
-            i + 1, total, offer_id, offer["relevancy_check"],
-        )
+        log.info(f"Checked offer {i + 1}/{total} ({offer_id}):{offer["relevancy_check"]}")
 
         if i < total - 1:
             time.sleep(GEMINI_DELAY)
