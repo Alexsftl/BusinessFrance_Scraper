@@ -1,13 +1,13 @@
-import requests, json
+from .gemini_handler import AllModelsExhausted
+import requests
 import time
 import logging
 
 log = logging.getLogger(__name__)
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-GEMINI_DELAY = 5
 GEMINI_MAX_RETRIES = 5
-GEMINI_RETRY_WAIT = 10
+GEMINI_WAIT = 4
 SAVE_EVERY = 10
 
 def offer_text(offer):
@@ -20,8 +20,7 @@ def offer_text(offer):
     return "\n".join(p for p in parts if p)
 
 
-
-def is_relevant_llm(offer, config_dict):
+def is_relevant(offer, handler, config_dict):
     profile = config_dict["USER_PROFILE"]
     text = offer_text(offer)
 
@@ -33,59 +32,30 @@ def is_relevant_llm(offer, config_dict):
         "Does this offer match the profile? Answer YES or NO."
     )
 
-    url = GEMINI_URL.format(model="gemini-3.1-flash-lite")
-
-    r = requests.post(
-        url,
-        headers={
-            "Content-Type": "application/json",
-            "x-goog-api-key": config_dict["GEMINI_API_KEY"],
-        },
-        json={"contents": [{"parts": [{"text": prompt}]}]},
-        timeout=30,
-    )
-
-    r.raise_for_status()
-
-    data = r.json()
-    answer = data["candidates"][0]["content"]["parts"][0]["text"]
-
+    answer = handler.generate(prompt)
     return answer.strip().upper().startswith("YES")
 
 
-
-def filter_relevant(offers, config_dict, save_func=None):
+def filter_relevant(offers, config_dict, handler, save_func=None):
     relevant = {}
     items = list(offers.items())
     total = len(items)
     checked_since_save = 0
 
     for i, (offer_id, offer) in enumerate(items):
-        
         if offer.get("relevancy_check") != "unchecked":
             continue
 
-        match = None
-
-        for attempt in range(GEMINI_MAX_RETRIES):
-            try:
-                match = is_relevant_llm(offer, config_dict)
-                break
-            except requests.exceptions.HTTPError as e:
-                if e.response.status_code == 429:
-                    match = None
-                    log.error(f"RELEVANCE WARNING - Gemini rate limit hit, waiting {GEMINI_RETRY_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...")
-                    time.sleep(GEMINI_RETRY_WAIT)
-                    continue
-            except Exception as e:
-                match = None
-                log.error(f"RELEVANCE ERROR - failed to send offer {offer_id}: {e}")
-                time.sleep(GEMINI_RETRY_WAIT)
-                continue
-
-        if match is None:
+        try:
+            match = is_relevant(offer, handler, config_dict)
+        except AllModelsExhausted:
+            log.error("RELEVANCE ERROR - all Gemini models exhausted; stopping run.")
+            break
+        except Exception as e:
+            log.error(f"RELEVANCE ERROR - offer {offer_id}: {e}")
             continue
-        elif match:
+
+        if match:
             offer["relevancy_check"] = "relevant"
             relevant[offer_id] = offer
         else:
@@ -97,9 +67,6 @@ def filter_relevant(offers, config_dict, save_func=None):
         if save_func is not None and checked_since_save >= SAVE_EVERY:
             save_func(offers)
             checked_since_save = 0
-
-        if i < total - 1:
-            time.sleep(1)
 
     if save_func is not None:
         save_func(offers)
