@@ -3,7 +3,9 @@ from .scraper import scrape_offers, cutoff_date
 from .relevance import filter_relevant
 from .telegram import send_offers
 from .store import load_offers, save_offers, new_offers, delete_old
+from .metrics import append_run, count_unchecked, ErrorCounter
 
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -16,6 +18,7 @@ log = logging.getLogger(__name__)
 
 START_HOUR = 8  
 END_HOUR = 20
+error_counter = ErrorCounter()
 
 
 def setup_logging():
@@ -25,6 +28,7 @@ def setup_logging():
         datefmt="%Y-%m-%d %H:%M:%S",
         stream=sys.stdout,
     )
+    logging.getLogger().addHandler(error_counter)
 
 
 def within_active_window():
@@ -35,6 +39,9 @@ def within_active_window():
 
 
 def run():
+
+    time_start = time.time()
+
     # 0 - Initialization
     setup_logging()
 
@@ -48,7 +55,7 @@ def run():
     since = cutoff_date(config_dict["MAX_DAYS"])
     stored = load_offers()
 
-    # 1 - Scraping 
+    # ------------------------- Scraping 
     log.info("Beginning scrapping...")
     scraped = scrape_offers(
         config_dict, since=since, stored=stored, batch=config_dict["BATCH_SIZE"]
@@ -58,12 +65,12 @@ def run():
     log.info(f"--- {len(fresh)} new offers ({len(stored)} already known).")
     merged = {**stored, **fresh}
 
-    # 2 - Relevance
+    # ------------------------- Relevance
     log.info("Beginning relevancy check...")
     relevant = filter_relevant(merged, config_dict, save_func=save_offers)
     log.info(f"--- {len(relevant)} newly relevant offer(s) to notify.")
 
-    # 3 - Telegram part
+    # ------------------------- Telegram part
     if relevant:
         log.info("Beginning sending offers Telegram...")
         send_offers(relevant, config_dict)
@@ -72,6 +79,17 @@ def run():
 
     merged = delete_old(merged, since=since)
     save_offers(merged)
+
+    time_end = time.time()
+    append_run(
+        scraped=len(scraped),
+        new=len(fresh),
+        relevant=len(relevant),
+        stored=len(merged),
+        unchecked=count_unchecked(merged),
+        errors=error_counter.count,
+        runtime = round(time_end - time_start, 1)
+    )
 
     log.info(f"Run complete: {len(fresh)} new, {len(relevant)} relevant, {len(merged)} stored.")
 

@@ -5,9 +5,8 @@ import logging
 log = logging.getLogger(__name__)
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-GEMINI_DELAY = 5
 GEMINI_MAX_RETRIES = 5
-GEMINI_RETRY_WAIT = 10
+GEMINI_WAIT = 4
 SAVE_EVERY = 10
 
 def offer_text(offer):
@@ -74,16 +73,17 @@ def filter_relevant(offers, config_dict, save_func=None):
             except requests.exceptions.HTTPError as e:
                 if e.response.status_code == 429:
                     match = None
-                    log.error(f"RELEVANCE WARNING - Gemini rate limit hit, waiting {GEMINI_RETRY_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...")
-                    time.sleep(GEMINI_RETRY_WAIT)
+                    log.warning(f"RELEVANCE WARNING - Gemini rate limit hit, waiting {GEMINI_WAIT}s (retry {attempt + 1}/{GEMINI_MAX_RETRIES})...")
+                    time.sleep(GEMINI_WAIT)
                     continue
             except Exception as e:
                 match = None
                 log.error(f"RELEVANCE ERROR - failed to send offer {offer_id}: {e}")
-                time.sleep(GEMINI_RETRY_WAIT)
+                time.sleep(GEMINI_WAIT)
                 continue
 
         if match is None:
+            log.error(f"RELEVANCE ERROR - failed to send offer {offer_id}: {e}")
             continue
         elif match:
             offer["relevancy_check"] = "relevant"
@@ -99,7 +99,7 @@ def filter_relevant(offers, config_dict, save_func=None):
             checked_since_save = 0
 
         if i < total - 1:
-            time.sleep(1)
+            time.sleep(GEMINI_WAIT)
 
     if save_func is not None:
         save_func(offers)
