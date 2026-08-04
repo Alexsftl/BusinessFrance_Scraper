@@ -44,9 +44,11 @@ def run():
     time_start = time.time()
 
     # ------------------------- Initialization
-    setup_logging()
-
     force_run = os.environ.get("FORCE_RUN") == "1"
+    setup_logging()
+    log.info("Initializing...")
+
+    initialization_time_start = time.time()
 
     if not force_run and not within_active_window():
         log.info("Outside active window (Paris time), skipping run.")
@@ -55,9 +57,13 @@ def run():
     config_dict = load_config()
     since = cutoff_date(config_dict["MAX_DAYS"])
     stored = load_offers()
+    initialization_total_time = round(time.time() - initialization_time_start, 1)
 
     # ------------------------- Scraping 
     log.info("Beginning scrapping...")
+
+    scraping_time_start = time.time()
+
     scraped = scrape_offers(
         config_dict, since=since, stored=stored, batch=config_dict["BATCH_SIZE"]
     )
@@ -65,12 +71,17 @@ def run():
     fresh = new_offers(scraped, stored)
     log.info(f"--- {len(fresh)} new offers ({len(stored)} already known).")
     merged = {**stored, **fresh}
+    scraping_total_time = round(time.time() - scraping_time_start, 1)
 
     # ------------------------- Relevance
-    handler = GeminiHandler(config_dict["GEMINI_API_KEY"], config_dict["GEMINI_MODELS"])
     log.info("Beginning relevancy check...")
+
+    relevance_time_start = time.time()
+
+    handler = GeminiHandler(config_dict["GEMINI_API_KEY"], config_dict["GEMINI_MODELS"])
     relevant = filter_relevant(merged, config_dict, handler, save_func=save_offers)
     log.info(f"--- {len(relevant)} newly relevant offer(s) to notify.")
+    relevance_total_time = round(time.time() - relevance_time_start, 1)
 
     # ------------------------- Telegram part
     if relevant:
@@ -82,7 +93,7 @@ def run():
     merged = delete_old(merged, since=since)
     save_offers(merged)
 
-    time_end = time.time()
+    total_runtime = round(time.time() - time_start, 1)
     append_run(
         scraped=len(scraped),
         new=len(fresh),
@@ -90,9 +101,12 @@ def run():
         stored=len(merged),
         unchecked=count_unchecked(merged),
         errors=error_counter.count,
-        runtime = round(time_end - time_start, 1)
+        initialization_time = initialization_total_time,
+        scraping_total_time = scraping_total_time,
+        relevance_total_time = relevance_total_time,
+        runtime = total_runtime
     )
-
+  
     log.info(f"Run complete: {len(fresh)} new, {len(relevant)} relevant, {len(merged)} stored.")
 
 

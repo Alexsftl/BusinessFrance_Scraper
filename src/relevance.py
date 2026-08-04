@@ -49,7 +49,7 @@ def filter_relevant(offers, config_dict, handler, save_func=None):
         try:
             match = is_relevant(offer, handler, config_dict)
         except AllModelsExhausted:
-            log.error("RELEVANCE ERROR - all Gemini models exhausted; stopping run. Remaining offers stay unchecked.")
+            log.error("RELEVANCE ERROR - all Gemini models exhausted; stopping run.")
             break
         except Exception as e:
             log.error(f"RELEVANCE ERROR - offer {offer_id}: {e}")

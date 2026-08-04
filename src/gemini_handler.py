@@ -40,7 +40,6 @@ class GeminiHandler:
             model = self._pick_available()
 
             if model is None:
-                log.error(f"RELEVANCE ERROR - All Gemini model's RPD limit were reached.")
                 raise AllModelsExhausted()
 
             for attempt in range(GEMINI_MAX_RETRIES + 1):

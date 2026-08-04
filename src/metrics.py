@@ -20,7 +20,17 @@ def count_unchecked(offers):
         1 for o in offers.values() if o.get("relevancy_check") == "unchecked"
     )
 
-def append_run(scraped, new, relevant, stored, unchecked, errors, runtime, path=METRICS_PATH):
+def append_run(scraped, 
+               new, 
+               relevant, 
+               stored, 
+               unchecked, 
+               errors, 
+               initialization_time, 
+               scraping_total_time,
+               relevance_total_time,
+               runtime, 
+               path=METRICS_PATH):
     record = {
         "timestamp": datetime.now(ZoneInfo("Europe/Paris")).isoformat(timespec="seconds"),
         "scraped": scraped,
@@ -28,7 +38,10 @@ def append_run(scraped, new, relevant, stored, unchecked, errors, runtime, path=
         "relevant": relevant,
         "stored": stored,
         "unchecked": unchecked,
-        "runtime": runtime,
+        "initialization_time": initialization_time,
+        "scraping_time": scraping_total_time,
+        "relevance_time": relevance_total_time,
+        "total_time": runtime,
         "errors": errors,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
