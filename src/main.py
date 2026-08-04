@@ -3,6 +3,7 @@ from .scraper import scrape_offers, cutoff_date
 from .relevance import filter_relevant
 from .telegram import send_offers
 from .store import load_offers, save_offers, new_offers, delete_old
+from .gemini_handler import GeminiHandler
 from .metrics import append_run, count_unchecked, ErrorCounter
 
 import time
@@ -42,7 +43,7 @@ def run():
 
     time_start = time.time()
 
-    # 0 - Initialization
+    # ------------------------- Initialization
     setup_logging()
 
     force_run = os.environ.get("FORCE_RUN") == "1"
@@ -66,8 +67,9 @@ def run():
     merged = {**stored, **fresh}
 
     # ------------------------- Relevance
+    handler = GeminiHandler(config_dict["GEMINI_API_KEY"], config_dict["GEMINI_MODELS"])
     log.info("Beginning relevancy check...")
-    relevant = filter_relevant(merged, config_dict, save_func=save_offers)
+    relevant = filter_relevant(merged, config_dict, handler, save_func=save_offers)
     log.info(f"--- {len(relevant)} newly relevant offer(s) to notify.")
 
     # ------------------------- Telegram part

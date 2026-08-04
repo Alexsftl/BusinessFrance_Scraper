@@ -52,6 +52,10 @@ jobs:
               "relevance": {
                   "gemini_api_key": os.environ["GEMINI_API_KEY"],
                   "user_description": os.environ["USER_DESCRIPTION"],
+                  "models": [
+                      {"name": "gemini-3.5-flash-lite"},
+                      {"name": "gemini-3.1-flash-lite"},
+                  ],
               },
               "telegram": {
                   "bot_token": os.environ["TELEGRAM_BOT_TOKEN"],

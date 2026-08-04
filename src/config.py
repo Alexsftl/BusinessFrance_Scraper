@@ -17,6 +17,7 @@ REQUIRED_CONFIG = {
     "relevance": {
         "gemini_api_key": str,
         "user_description": str,
+        "models": list
     },
     "telegram": {
         "bot_token": str,
@@ -103,6 +104,7 @@ def load_config(path=CONFIG_PATH):
         "BATCH_SIZE": raw_config["scraping"]["batch_size"],
         "USER_PROFILE": raw_config["relevance"]["user_description"],
         "GEMINI_API_KEY": raw_config["relevance"]["gemini_api_key"],
+        "GEMINI_MODELS": raw_config["relevance"]["models"],
         "TELEGRAM_BOT_TOKEN": str(raw_config["telegram"]["bot_token"]),
         "TELEGRAM_CHAT_ID": str(raw_config["telegram"]["chat_id"]),
     }
