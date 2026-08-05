@@ -61,14 +61,10 @@
   <script>
     const METRICS_URL = "metrics.jsonl";
 
-    // log axis can't show 0, so render zeros as a tiny floor value
-    const FLOOR = 0.1;
-    const floorZeros = arr => arr.map(v => (v && v > 0) ? v : FLOOR);
-
     const axisOpts = (color) => ({
       responsive:true,
       scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:true, maxTicksLimit:8 } },
-               y:{ type:"logarithmic", ticks:{ color:"#9aa0aa" } } },
+               y:{ ticks:{ color:"#9aa0aa" }, beginAtZero:true } },
       plugins:{ legend:{ display:false } },
       elements:{ point:{ radius:2 } },
     });
@@ -76,7 +72,7 @@
     function lineChart(id, label, data, labels, color) {
       new Chart(document.getElementById(id), {
         type:"line",
-        data:{ labels, datasets:[{ label, data:floorZeros(data), borderColor:color,
+        data:{ labels, datasets:[{ label, data, borderColor:color,
           backgroundColor:color+"22", tension:0.2, fill:true }] },
         options: axisOpts(color),
       });
@@ -94,12 +90,20 @@
         return;
       }
 
-      const runs = text.trim().split("\n").filter(Boolean)
+      const allRuns = text.trim().split("\n").filter(Boolean)
         .map(l => { try { return JSON.parse(l); } catch { return null; } })
         .filter(Boolean);
 
+      // exclude the one-time initialization/backfill run(s): a normal run
+      // handles a handful of new offers, the backfill handles hundreds.
+      // dropping it keeps the linear charts readable.
+      const BACKFILL_THRESHOLD = 100;
+      const runs = allRuns.filter(r => (r.new ?? 0) <= BACKFILL_THRESHOLD);
+
       if (runs.length === 0) {
-        document.getElementById("subtitle").textContent = "No runs recorded yet.";
+        document.getElementById("subtitle").textContent =
+          allRuns.length ? "Only the initial backfill has run so far — waiting for regular runs."
+                         : "No runs recorded yet.";
         return;
       }
 
@@ -117,15 +121,15 @@
         data: {
           labels,
           datasets: [
-            { label: "Total", data: floorZeros(runs.map(r => r.total_time ?? 0)), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
-            { label: "Scraping", data: floorZeros(runs.map(r => r.scraping_time ?? 0)), borderColor: "#4f8cff", tension: 0.2 },
-            { label: "Relevance", data: floorZeros(runs.map(r => r.relevance_time ?? 0)), borderColor: "#42c98a", tension: 0.2 },
+            { label: "Total", data: runs.map(r => r.total_time ?? 0), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
+            { label: "Scraping", data: runs.map(r => r.scraping_time ?? 0), borderColor: "#4f8cff", tension: 0.2 },
+            { label: "Relevance", data: runs.map(r => r.relevance_time ?? 0), borderColor: "#42c98a", tension: 0.2 },
           ],
         },
         options: {
           responsive: true,
           scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
-                    y: { type: "logarithmic", ticks: { color: "#9aa0aa" } } },
+                    y: { ticks: { color: "#9aa0aa" }, beginAtZero: true } },
           plugins: { legend: { labels: { color: "#e6e8ec" } } },
           elements: { point: { radius: 2 } },
         },
