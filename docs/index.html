@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VIE Watcher — Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#0f1115; --card:#181b22; --text:#e6e8ec; --muted:#9aa0aa;
+      --blue:#4f8cff; --green:#42c98a; --amber:#f2b64c; --red:#ff5c5c; --line:#252932;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:24px; background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+    h1 { font-size:1.4rem; margin:0 0 4px; }
+    .subtitle { color:var(--muted); font-size:0.9rem; margin-bottom:24px; }
+    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    @media (max-width:720px){ .grid { grid-template-columns:1fr; } }
+    .chart-box { background:var(--card); border-radius:12px; padding:16px; }
+    .chart-box h2 { font-size:0.95rem; margin:0 0 12px; font-weight:500; }
+    canvas { max-height:280px; }
+    .table-box { background:var(--card); border-radius:12px; padding:16px; margin-top:20px; }
+    .table-box h2 { font-size:0.95rem; margin:0 0 12px; font-weight:500; }
+    table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-weight:500; }
+    td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    .scroll { max-height:360px; overflow-y:auto; }
+    .status { color:var(--muted); font-size:0.85rem; margin-top:16px; }
+  </style>
+</head>
+<body>
+  <h1>VIE Watcher</h1>
+  <div class="subtitle" id="subtitle">Loading metrics…</div>
+
+  <div class="grid">
+    <div class="chart-box"><h2>New offers scraped</h2><canvas id="newChart"></canvas></div>
+    <div class="chart-box"><h2>Relevant offers</h2><canvas id="relevantChart"></canvas></div>
+    <div class="chart-box"><h2>Unchecked after run</h2><canvas id="uncheckedChart"></canvas></div>
+    <div class="chart-box"><h2>Errors</h2><canvas id="errorsChart"></canvas></div>
+    <div class="chart-box"><h2>Run time (seconds)</h2><canvas id="timingChart"></canvas></div>
+  </div>
+
+  <div class="table-box">
+    <h2>Run log</h2>
+    <div class="scroll">
+      <table id="runTable">
+        <thead><tr>
+          <th>Run time (Paris)</th>
+          <th class="num">New</th><th class="num">Relevant</th>
+          <th class="num">Unchecked</th><th class="num">Errors</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script>
+    const METRICS_URL = "../data/metrics.jsonl";
+
+    const axisOpts = (color) => ({
+      responsive:true,
+      scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:true, maxTicksLimit:8 } },
+               y:{ ticks:{ color:"#9aa0aa" }, beginAtZero:true } },
+      plugins:{ legend:{ display:false } },
+      elements:{ point:{ radius:2 } },
+    });
+
+    function lineChart(id, label, data, labels, color) {
+      new Chart(document.getElementById(id), {
+        type:"line",
+        data:{ labels, datasets:[{ label, data, borderColor:color,
+          backgroundColor:color+"22", tension:0.2, fill:true }] },
+        options: axisOpts(color),
+      });
+    }
+
+    async function load() {
+      let text;
+      try {
+        const res = await fetch(METRICS_URL, { cache:"no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        text = await res.text();
+      } catch (e) {
+        document.getElementById("subtitle").textContent =
+          "Could not load metrics yet — run the watcher at least once.";
+        return;
+      }
+
+      const runs = text.trim().split("\n").filter(Boolean)
+        .map(l => { try { return JSON.parse(l); } catch { return null; } })
+        .filter(Boolean);
+
+      if (runs.length === 0) {
+        document.getElementById("subtitle").textContent = "No runs recorded yet.";
+        return;
+      }
+
+      // x-axis labels: short "MM-DD HH:MM" from each run's timestamp
+      const labels = runs.map(r => (r.timestamp || "").slice(5, 16).replace("T", " "));
+
+      lineChart("newChart",       "New",       runs.map(r => r.new ?? 0),       labels, "#4f8cff");
+      lineChart("relevantChart",  "Relevant",  runs.map(r => r.relevant ?? 0),  labels, "#42c98a");
+      lineChart("uncheckedChart", "Unchecked", runs.map(r => r.unchecked ?? 0), labels, "#f2b64c");
+      lineChart("errorsChart",    "Errors",    runs.map(r => r.errors ?? 0),    labels, "#ff5c5c");
+
+      // run timing: total, plus scraping and relevance breakdown
+      new Chart(document.getElementById("timingChart"), {
+        type: "line",
+        data: {
+          labels,
+          datasets: [
+            { label: "Total", data: runs.map(r => r.total_time ?? 0), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
+            { label: "Scraping", data: runs.map(r => r.scraping_time ?? 0), borderColor: "#4f8cff", tension: 0.2 },
+            { label: "Relevance", data: runs.map(r => r.relevance_time ?? 0), borderColor: "#42c98a", tension: 0.2 },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+                    y: { ticks: { color: "#9aa0aa" }, beginAtZero: true } },
+          plugins: { legend: { labels: { color: "#e6e8ec" } } },
+          elements: { point: { radius: 2 } },
+        },
+      });
+
+      // run-log table, newest first
+      const tbody = document.querySelector("#runTable tbody");
+      tbody.innerHTML = runs.slice().reverse().map(r => `
+        <tr>
+          <td>${(r.timestamp || "").replace("T", " ")}</td>
+          <td class="num">${r.new ?? 0}</td>
+          <td class="num">${r.relevant ?? 0}</td>
+          <td class="num">${r.unchecked ?? 0}</td>
+          <td class="num">${r.errors ?? 0}</td>
+        </tr>`).join("");
+
+      const latest = runs[runs.length - 1];
+      document.getElementById("subtitle").textContent =
+        `Last run: ${(latest.timestamp || "unknown").replace("T", " ")} (Paris time)`;
+      document.getElementById("status").textContent = `${runs.length} run(s) recorded.`;
+    }
+
+    load();
+  </script>
+</body>
+</html>
