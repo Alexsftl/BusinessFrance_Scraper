@@ -73,19 +73,17 @@ jobs:
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
         run: python -m src.main
 
-      - name: Persist the store
+      - name: Persist the store and metrics
         run: |
           git config user.name "vie-watcher-bot"
           git config user.email "actions@github.com"
-          if [ ! -f data/offers.json ]; then
-            echo "No store file was produced this run; nothing to persist."
-            exit 0
-          fi
-          git add data/offers.json
+          # stage whichever of the two files exist
+          [ -f data/offers.json ] && git add data/offers.json
+          [ -f data/metrics.jsonl ] && git add data/metrics.jsonl
           if git diff --staged --quiet; then
-            echo "No store changes to commit."
+            echo "No changes to commit."
           else
-            git commit -m "Update offers store [skip ci]"
+            git commit -m "Update offers store and metrics [skip ci]"
             git push
           fi
 
