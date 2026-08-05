@@ -1,11 +1,11 @@
 # Business France Scraper
 
-Automatically scrapes new [Business France VIE](https://mon-vie-via.businessfrance.fr/)
-offers, filters them against *your* profile using Google Gemini, and sends
+Automatically scrapes [Business France VIE](https://mon-vie-via.businessfrance.fr/)
+offers, filters them against **your** profile using Google Gemini, and sends
 you a Telegram message for each relevant one — running by itself on GitHub
 Actions, with a live metrics dashboard.
 
-No server, no code to write. You fork the repo, add a few settings, and it
+**No server**, **no code** to write. You fork the repo, add a few settings, and it
 runs on a schedule in the cloud.
 
 ---
@@ -23,7 +23,7 @@ Every run, the watcher:
 4. **Remembers** every offer it has already checked, so you're never notified
    twice, and only genuinely new offers are ever sent.
 
-It runs on weekdays, roughly hourly between 08:00 and 20:00 Paris time, and
+It runs on weekdays, several times (depends on Github's traffic) between 08:00 and 20:00 Paris time, and
 publishes a dashboard tracking how many offers it scraped, how many were
 relevant, and whether anything went wrong.
 
@@ -37,19 +37,19 @@ there is no code to edit.
 ### 1. Fork this repository
 
 Click **Fork** (top right of the repo page) to create your own copy. All the
-steps below happen in *your* fork.
+steps below happen in **your** fork.
 
 ### 2. Reset the data files
 
 This repo commits its own running data back into itself, so your fresh fork
-inherits the previous owner's offers and run history. Reset both files so
+inherits my offers and run history. Reset both files so
 your watcher starts clean and judges offers against *your* profile.
 
 - **`data/offers.json`** — replace the entire contents with exactly:
   ```
   {}
   ```
-  (Two characters. Not blank — an empty file is invalid.)
+  (Two characters, not blank)
 
 - **`docs/metrics.jsonl`** — delete all its contents, leaving the file
   completely empty.
@@ -79,9 +79,13 @@ https://api.telegram.org/bot<TOKEN>/getUpdates
 Find the `"chat":{"id": ...}` value in the response — that number is your
 chat ID. (The bot can't message you until you've messaged it at least once.)
 
-**Your profile** — a plain sentence describing the offers you want, e.g.
-*"A data scientist comfortable with Python, SQL, statistics, and machine
-learning, looking for analytics or ML engineering missions."*
+**Your profile** — a description of your profile to match the offers appropriately.
+Feel free to make it as detailed as needed based on the relevance of the offers you receive on Telegram.
+For example, mine includes:
+- degree or educational background
+- description of the types of positions I'm looking for
+- technical skills
+- languages
 
 ### 4. Add secrets and your profile to GitHub
 
@@ -99,7 +103,7 @@ Under the **Variables** tab, add one (**New repository variable**):
 
 | Name               | Value             |
 |--------------------|-------------------|
-| `USER_DESCRIPTION` | your profile sentence |
+| `USER_DESCRIPTION` | your profile |
 
 ### 5. Enable Actions and run the watcher
 
@@ -177,10 +181,6 @@ Note: GitHub automatically disables scheduled workflows in public repos after
 - **`.github/workflows/watch.yml`** — runs it all on GitHub's servers on a
   schedule and commits the updated data back.
 
-Configuration (how far back to scrape, batch size, which Gemini models to
-use) lives in the workflow's config step; the sensitive values come from the
-secrets you set above.
-
 ---
 
 ## Notes and limitations
@@ -190,7 +190,7 @@ secrets you set above.
   use very little. If a run hits the limit, it stops cleanly and resumes on
   the next run — no offers are lost.
 - **GitHub's scheduler is best-effort.** Scheduled runs can be delayed or
-  occasionally skipped under load, so "hourly" is approximate. For catching
-  VIE offers this is perfectly adequate.
+  occasionally skipped under load, so "hourly" is approximate (often closer to 2-3 hours between runs). For catching
+  VIE offers this is enough.
 - **The Business France API key** in the config is the public one embedded in
   their website — it's the same for everyone and not a secret.
