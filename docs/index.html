@@ -25,7 +25,7 @@
     table { width:100%; border-collapse:collapse; font-size:0.85rem; }
     th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
     th { color:var(--muted); font-weight:500; }
-    td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    th.num, td.num { text-align:center; font-variant-numeric:tabular-nums; }
     .scroll { max-height:360px; overflow-y:auto; }
     .status { color:var(--muted); font-size:0.85rem; margin-top:16px; }
   </style>
@@ -59,12 +59,16 @@
   <div class="status" id="status"></div>
 
   <script>
-    const METRICS_URL = "../data/metrics.jsonl";
+    const METRICS_URL = "metrics.jsonl";
+
+    // log axis can't show 0, so render zeros as a tiny floor value
+    const FLOOR = 0.1;
+    const floorZeros = arr => arr.map(v => (v && v > 0) ? v : FLOOR);
 
     const axisOpts = (color) => ({
       responsive:true,
       scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:true, maxTicksLimit:8 } },
-               y:{ ticks:{ color:"#9aa0aa" }, beginAtZero:true } },
+               y:{ type:"logarithmic", ticks:{ color:"#9aa0aa" } } },
       plugins:{ legend:{ display:false } },
       elements:{ point:{ radius:2 } },
     });
@@ -72,7 +76,7 @@
     function lineChart(id, label, data, labels, color) {
       new Chart(document.getElementById(id), {
         type:"line",
-        data:{ labels, datasets:[{ label, data, borderColor:color,
+        data:{ labels, datasets:[{ label, data:floorZeros(data), borderColor:color,
           backgroundColor:color+"22", tension:0.2, fill:true }] },
         options: axisOpts(color),
       });
@@ -113,25 +117,28 @@
         data: {
           labels,
           datasets: [
-            { label: "Total", data: runs.map(r => r.total_time ?? 0), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
-            { label: "Scraping", data: runs.map(r => r.scraping_time ?? 0), borderColor: "#4f8cff", tension: 0.2 },
-            { label: "Relevance", data: runs.map(r => r.relevance_time ?? 0), borderColor: "#42c98a", tension: 0.2 },
+            { label: "Total", data: floorZeros(runs.map(r => r.total_time ?? 0)), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
+            { label: "Scraping", data: floorZeros(runs.map(r => r.scraping_time ?? 0)), borderColor: "#4f8cff", tension: 0.2 },
+            { label: "Relevance", data: floorZeros(runs.map(r => r.relevance_time ?? 0)), borderColor: "#42c98a", tension: 0.2 },
           ],
         },
         options: {
           responsive: true,
           scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
-                    y: { ticks: { color: "#9aa0aa" }, beginAtZero: true } },
+                    y: { type: "logarithmic", ticks: { color: "#9aa0aa" } } },
           plugins: { legend: { labels: { color: "#e6e8ec" } } },
           elements: { point: { radius: 2 } },
         },
       });
 
+      // format an ISO timestamp as 'YYYY-MM-DD HH:MM:SS' (drop +02:00)
+      const fmt = ts => (ts || "").slice(0, 19).replace("T", " ");
+
       // run-log table, newest first
       const tbody = document.querySelector("#runTable tbody");
       tbody.innerHTML = runs.slice().reverse().map(r => `
         <tr>
-          <td>${(r.timestamp || "").replace("T", " ")}</td>
+          <td>${fmt(r.timestamp)}</td>
           <td class="num">${r.new ?? 0}</td>
           <td class="num">${r.relevant ?? 0}</td>
           <td class="num">${r.unchecked ?? 0}</td>
@@ -140,7 +147,7 @@
 
       const latest = runs[runs.length - 1];
       document.getElementById("subtitle").textContent =
-        `Last run: ${(latest.timestamp || "unknown").replace("T", " ")} (Paris time)`;
+        `Last run: ${fmt(latest.timestamp)} (Paris time)`;
       document.getElementById("status").textContent = `${runs.length} run(s) recorded.`;
     }
 

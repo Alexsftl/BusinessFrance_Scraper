@@ -6,7 +6,7 @@ import logging
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
-METRICS_PATH = DATA_DIR / "metrics.jsonl"
+METRICS_PATH = PROJECT_ROOT / "docs" / "metrics.jsonl"
 
 class ErrorCounter(logging.Handler):
     def __init__(self):

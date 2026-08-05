@@ -9,6 +9,7 @@ GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:ge
 GEMINI_MAX_RETRIES = 5
 GEMINI_WAIT = 4
 GEMINI_MINUTE_WAIT = 61
+TRANSIENT_STATUSES = {429, 500, 502, 503, 504}
 
 class AllModelsExhausted(Exception):
     pass
@@ -48,7 +49,7 @@ class GeminiHandler:
                     return answer
                 except requests.exceptions.HTTPError as e:
                     status = e.response.status_code if e.response is not None else None
-                    if status != 429:
+                    if status not in TRANSIENT_STATUSES:
                         raise
 
                     wait = GEMINI_WAIT

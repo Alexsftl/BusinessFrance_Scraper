@@ -16,4 +16,4 @@ config.yaml
 
 data/*
 !data/offers.json
-!data/metrics.jsonl
+!docs/metrics.jsonl
