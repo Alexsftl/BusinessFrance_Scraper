@@ -7,3 +7,4 @@
 {"timestamp": "2026-08-06T11:05:37+02:00", "scraped": 400, "new": 10, "relevant": 0, "stored": 501, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.4, "relevance_time": 5.6, "total_time": 9.1, "errors": 0}
 {"timestamp": "2026-08-06T13:32:53+02:00", "scraped": 400, "new": 2, "relevant": 0, "stored": 503, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.2, "relevance_time": 0.9, "total_time": 3.2, "errors": 0}
 {"timestamp": "2026-08-06T16:34:50+02:00", "scraped": 400, "new": 5, "relevant": 0, "stored": 508, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.4, "relevance_time": 6.3, "total_time": 8.8, "errors": 0}
+{"timestamp": "2026-08-07T09:40:44+02:00", "scraped": 400, "new": 10, "relevant": 0, "stored": 486, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.2, "relevance_time": 4.0, "total_time": 6.3, "errors": 0}
