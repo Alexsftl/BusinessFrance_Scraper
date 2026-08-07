@@ -12,3 +12,4 @@
 {"timestamp": "2026-08-07T12:12:41+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 494, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.3, "relevance_time": 3.7, "total_time": 7.0, "errors": 0}
 {"timestamp": "2026-08-07T13:07:18+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 495, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.7, "relevance_time": 0.5, "total_time": 3.3, "errors": 0}
 {"timestamp": "2026-08-07T13:57:01+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 496, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.3, "relevance_time": 0.5, "total_time": 2.8, "errors": 0}
+{"timestamp": "2026-08-07T15:38:15+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 497, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 0.6, "total_time": 3.2, "errors": 0}
