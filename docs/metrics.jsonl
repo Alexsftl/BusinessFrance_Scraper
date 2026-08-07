@@ -14,3 +14,4 @@
 {"timestamp": "2026-08-07T13:57:01+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 496, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.3, "relevance_time": 0.5, "total_time": 2.8, "errors": 0}
 {"timestamp": "2026-08-07T15:38:15+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 497, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 0.6, "total_time": 3.2, "errors": 0}
 {"timestamp": "2026-08-07T17:08:53+02:00", "scraped": 400, "new": 6, "relevant": 0, "stored": 503, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.4, "relevance_time": 3.3, "total_time": 5.7, "errors": 0}
+{"timestamp": "2026-08-07T18:08:58+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 507, "unchecked": 0, "initialization_time": 0.1, "scraping_time": 2.3, "relevance_time": 2.1, "total_time": 4.5, "errors": 0}
