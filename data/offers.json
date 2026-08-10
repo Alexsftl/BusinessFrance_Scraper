@@ -129,6 +129,16 @@
     "startBroadcastDate": "2026-08-10",
     "relevancy_check": "not_relevant"
   },
+  "245194": {
+    "organizationName": "OPTIMETRIKS",
+    "missionTitle": "Machine Learning Engineer - Computer Vision (H/F)",
+    "cityName": "BARCELONE",
+    "countryName": "ESPAGNE",
+    "missionDescription": "About the role\r\n- Run the onboarding of new clients and SKU catalogues: scoping with Operations, labelling batches, model training, validation, and go-live.\r\n- Develop, test, and refine object detection models (YOLO family) for SKU-level shelf recognition, tracking experiments in MLFlow.\r\n- Improve model robustness to real field conditions: lighting, occlusions, dense shelves, low-end cameras.\r\n- Define photo-capture guidelines with field teams and monitor incoming data quality.\r\n- Collaborate with the Labelling team on annotation quality and throughput in Label Studio.\r\n- Monitor production model performance per client and trigger retraining when needed.\r\n- Turn detections into merchandising KPIs: share of shelf, on-shelf availability, planogram compliance, price reading.\r\n- Prepare client-ready reports and support account teams in client business reviews.\r\n\r\nWhat we offer\r\n- Position: Machine Learning Engineer – Computer Vision (VIE)\r\n- Location: Dakar, Senegal or Barcelona, Spain\r\n- Duration: 12 months, renewable up to 24 months\r\n- Monthly allowance: set by the Business France scale for the host country (tax-free), round-trip flights covered\r\n- Real responsibilities with client interactions and operational deployments\r\n- High growth environment\r\n- Young and multicultural company",
+    "missionProfile": "About you\r\n- Strong taste for deep learning and computer vision\r\n- 100% proficient in Python and SQL\r\n- Knowledge of ML/DL libraries like PyTorch, Ultralytics/YOLO, OpenCV\r\n- Autonomous, reliable, energetic — comfortable working close to clients, away from HQ\r\n- Proficient in English (French or Spanish is a plus)",
+    "startBroadcastDate": "2026-08-10",
+    "relevancy_check": "relevant"
+  },
   "245172": {
     "organizationName": "CACEIS",
     "missionTitle": "PERES - Client Operations Officer (VIE) (H/F)",
