@@ -107,8 +107,19 @@
         return;
       }
 
-      // x-axis labels: short "MM-DD HH:MM" from each run's timestamp
-      const labels = runs.map(r => (r.timestamp || "").slice(5, 16).replace("T", " "));
+      // x-axis labels: show the time (HH:MM) for each run, but when the day
+      // changes, show the date instead so days are visually separated.
+      let prevDay = null;
+      const labels = runs.map(r => {
+        const ts = r.timestamp || "";
+        const day = ts.slice(0, 10);        // YYYY-MM-DD
+        const time = ts.slice(11, 16);      // HH:MM
+        if (day !== prevDay) {
+          prevDay = day;
+          return ts.slice(5, 10);           // MM-DD marks the start of a new day
+        }
+        return time;
+      });
 
       lineChart("newChart",       "New",       runs.map(r => r.new ?? 0),       labels, "#4f8cff");
       lineChart("relevantChart",  "Relevant",  runs.map(r => r.relevant ?? 0),  labels, "#42c98a");
