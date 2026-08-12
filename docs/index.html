@@ -61,11 +61,18 @@
   <script>
     const METRICS_URL = "metrics.jsonl";
 
+    // full timestamps (with hour) for tooltips, populated in load()
+    let FULL_TS = [];
+    const fmtFull = ts => (ts || "").slice(0, 16).replace("T", " ");  // YYYY-MM-DD HH:MM
+
+    const tooltipTitle = (items) => fmtFull(FULL_TS[items[0].dataIndex]);
+
     const axisOpts = (color) => ({
       responsive:true,
-      scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:true, maxTicksLimit:8 } },
+      scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:false } },
                y:{ ticks:{ color:"#9aa0aa" }, beginAtZero:true } },
-      plugins:{ legend:{ display:false } },
+      plugins:{ legend:{ display:false },
+                tooltip:{ callbacks:{ title: tooltipTitle } } },
       elements:{ point:{ radius:2 } },
     });
 
@@ -107,18 +114,19 @@
         return;
       }
 
-      // x-axis labels: show the time (HH:MM) for each run, but when the day
-      // changes, show the date instead so days are visually separated.
+      // full timestamps for tooltips (hover shows date + hour)
+      FULL_TS = runs.map(r => r.timestamp || "");
+
+      // x-axis labels: show the date (MM-DD) only on the first run of each day,
+      // blank on every other run — hover a point to see its exact time.
       let prevDay = null;
       const labels = runs.map(r => {
-        const ts = r.timestamp || "";
-        const day = ts.slice(0, 10);        // YYYY-MM-DD
-        const time = ts.slice(11, 16);      // HH:MM
+        const day = (r.timestamp || "").slice(0, 10);   // YYYY-MM-DD
         if (day !== prevDay) {
           prevDay = day;
-          return ts.slice(5, 10);           // MM-DD marks the start of a new day
+          return day.slice(5);                          // MM-DD at day start
         }
-        return time;
+        return "";                                      // blank within the day
       });
 
       lineChart("newChart",       "New",       runs.map(r => r.new ?? 0),       labels, "#4f8cff");
@@ -139,9 +147,10 @@
         },
         options: {
           responsive: true,
-          scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+          scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: false } },
                     y: { ticks: { color: "#9aa0aa" }, beginAtZero: true } },
-          plugins: { legend: { labels: { color: "#e6e8ec" } } },
+          plugins: { legend: { labels: { color: "#e6e8ec" } },
+                     tooltip: { callbacks: { title: tooltipTitle } } },
           elements: { point: { radius: 2 } },
         },
       });
