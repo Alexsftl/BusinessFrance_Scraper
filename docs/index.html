@@ -4,96 +4,208 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VIE Watcher — Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg:#0f1115; --card:#181b22; --text:#e6e8ec; --muted:#9aa0aa;
-      --blue:#4f8cff; --green:#42c98a; --amber:#f2b64c; --red:#ff5c5c; --line:#252932;
+      --bg:      #0d1220;
+      --panel:   #141b2e;
+      --line:    #23304d;
+      --text:    #e8ecf4;
+      --muted:   #8b96ad;
+      --blue:    #5b8dee;
+      --amber:   #f0b429;   /* relevant — the point of the tool */
+      --teal:    #3ec9a7;
+      --red:     #ef5b6e;
+      --violet:  #a78bfa;
     }
-    * { box-sizing:border-box; }
-    body { margin:0; padding:24px; background:var(--bg); color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
-    h1 { font-size:1.4rem; margin:0 0 4px; }
-    .subtitle { color:var(--muted); font-size:0.9rem; margin-bottom:24px; }
-    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-    @media (max-width:720px){ .grid { grid-template-columns:1fr; } }
-    .chart-box { background:var(--card); border-radius:12px; padding:16px; }
-    .chart-box h2 { font-size:0.95rem; margin:0 0 12px; font-weight:500; }
-    canvas { max-height:280px; }
-    .table-box { background:var(--card); border-radius:12px; padding:16px; margin-top:20px; }
-    .table-box h2 { font-size:0.95rem; margin:0 0 12px; font-weight:500; }
-    table { width:100%; border-collapse:collapse; font-size:0.85rem; }
-    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
-    th { color:var(--muted); font-weight:500; }
-    th.num, td.num { text-align:center; font-variant-numeric:tabular-nums; }
-    .scroll { max-height:360px; overflow-y:auto; }
-    .status { color:var(--muted); font-size:0.85rem; margin-top:16px; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+
+    /* ---------- header ---------- */
+    header { margin-bottom: 28px; }
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px;
+    }
+    h1 .dot { color: var(--teal); }
+    #subtitle { color: var(--muted); font-size: 13px; }
+
+    /* ---------- KPI row ---------- */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 22px 0 28px;
+    }
+    .kpi {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .kpi .v {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .kpi .l {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+    .kpi.amber .v { color: var(--amber); }
+    .kpi.red .v   { color: var(--red); }
+
+    /* ---------- panels ---------- */
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 18px 12px;
+      margin-bottom: 18px;
+    }
+    .panel h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--muted);
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+    .hero h2 { color: var(--text); font-weight: 700; font-size: 17px; }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+    /* ---------- table ---------- */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+    th {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    th.num, td.num { text-align: center; font-variant-numeric: tabular-nums; }
+    td.rel  { color: var(--amber); font-weight: 500; }
+    tr.err td { color: var(--red); }
+    tr.day-start td { border-top: 1px solid var(--muted); }
   </style>
 </head>
 <body>
-  <h1>VIE Watcher</h1>
-  <div class="subtitle" id="subtitle">Loading metrics…</div>
+  <div class="wrap">
+    <header>
+      <h1>VIE Watcher<span class="dot">.</span></h1>
+      <div id="subtitle">Loading metrics…</div>
+    </header>
 
-  <div class="grid">
-    <div class="chart-box"><h2>New offers scraped</h2><canvas id="newChart"></canvas></div>
-    <div class="chart-box"><h2>Relevant offers</h2><canvas id="relevantChart"></canvas></div>
-    <div class="chart-box"><h2>Unchecked after run</h2><canvas id="uncheckedChart"></canvas></div>
-    <div class="chart-box"><h2>Errors</h2><canvas id="errorsChart"></canvas></div>
-    <div class="chart-box"><h2>Run time (seconds)</h2><canvas id="timingChart"></canvas></div>
-  </div>
+    <div class="kpis" id="kpis" hidden>
+      <div class="kpi amber"><div class="v" id="kpiRelevant">–</div><div class="l">relevant found</div></div>
+      <div class="kpi"><div class="v" id="kpiNewToday">–</div><div class="l">new today</div></div>
+      <div class="kpi"><div class="v" id="kpiStored">–</div><div class="l">offers stored</div></div>
+      <div class="kpi red"><div class="v" id="kpiErrors">–</div><div class="l">errors (7 last runs)</div></div>
+    </div>
 
-  <div class="table-box">
-    <h2>Run log</h2>
-    <div class="scroll">
-      <table id="runTable">
-        <thead><tr>
-          <th>Run time (Paris)</th>
-          <th class="num">New</th><th class="num">Relevant</th>
-          <th class="num">Unchecked</th><th class="num">Errors</th>
-        </tr></thead>
-        <tbody></tbody>
+    <div class="panel hero" id="heroPanel" hidden>
+      <h2>New offers per day</h2>
+      <canvas id="dailyChart" height="90"></canvas>
+    </div>
+
+    <div class="grid2" id="charts" hidden>
+      <div class="panel"><h2>New offers per run</h2><canvas id="newChart"></canvas></div>
+      <div class="panel"><h2>Relevant per run</h2><canvas id="relevantChart"></canvas></div>
+      <div class="panel"><h2>Unchecked after run</h2><canvas id="uncheckedChart"></canvas></div>
+      <div class="panel"><h2>Errors per run</h2><canvas id="errorsChart"></canvas></div>
+    </div>
+
+    <div class="panel" id="timingPanel" hidden>
+      <h2>Run time (seconds)</h2>
+      <canvas id="timingChart" height="80"></canvas>
+    </div>
+
+    <div class="panel" id="logPanel" hidden>
+      <h2>Run log</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Run time (Paris)</th>
+            <th class="num">New</th><th class="num">Relevant</th>
+            <th class="num">Unchecked</th><th class="num">Errors</th>
+            <th class="num">Duration</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
       </table>
     </div>
   </div>
 
-  <div class="status" id="status"></div>
-
   <script>
     const METRICS_URL = "metrics.jsonl";
+    const BACKFILL_THRESHOLD = 100;
 
-    // full timestamps (with hour) for tooltips, populated in load()
+    const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+    const fmtFull = ts => (ts || "").slice(0, 16).replace("T", " ");
+
     let FULL_TS = [];
-    const fmtFull = ts => (ts || "").slice(0, 16).replace("T", " ");  // YYYY-MM-DD HH:MM
+    const tooltipTitle = items => fmtFull(FULL_TS[items[0].dataIndex]);
 
-    const tooltipTitle = (items) => fmtFull(FULL_TS[items[0].dataIndex]);
+    Chart.defaults.font.family = '"IBM Plex Mono", monospace';
+    Chart.defaults.font.size = 11;
 
-    const axisOpts = (color) => ({
-      responsive:true,
-      scales:{ x:{ ticks:{ color:"#9aa0aa", maxRotation:0, autoSkip:false } },
-               y:{ ticks:{ color:"#9aa0aa" }, beginAtZero:true } },
-      plugins:{ legend:{ display:false },
-                tooltip:{ callbacks:{ title: tooltipTitle } } },
-      elements:{ point:{ radius:2 } },
+    const lineOpts = () => ({
+      responsive: true,
+      scales: {
+        x: { ticks: { color: css("--muted"), maxRotation: 0, autoSkip: false },
+             grid:  { color: "transparent" } },
+        y: { ticks: { color: css("--muted"), precision: 0 },
+             grid:  { color: css("--line") }, beginAtZero: true },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { title: tooltipTitle } },
+      },
+      elements: { point: { radius: 2.5, hoverRadius: 5 } },
+      interaction: { intersect: false, mode: "index" },
     });
 
-    function lineChart(id, label, data, labels, color) {
+    function lineChart(id, data, labels, color) {
       new Chart(document.getElementById(id), {
-        type:"line",
-        data:{ labels, datasets:[{ label, data, borderColor:color,
-          backgroundColor:color+"22", tension:0.2, fill:true }] },
-        options: axisOpts(color),
+        type: "line",
+        data: { labels, datasets: [{ data, borderColor: color,
+          backgroundColor: color + "22", tension: 0.25, fill: true, borderWidth: 2 }] },
+        options: lineOpts(),
       });
     }
 
     async function load() {
       let text;
       try {
-        const res = await fetch(METRICS_URL, { cache:"no-store" });
+        const res = await fetch(METRICS_URL, { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP " + res.status);
         text = await res.text();
       } catch (e) {
         document.getElementById("subtitle").textContent =
-          "Could not load metrics yet — run the watcher at least once.";
+          "No metrics yet — run the watcher at least once, then refresh.";
         return;
       }
 
@@ -101,78 +213,117 @@
         .map(l => { try { return JSON.parse(l); } catch { return null; } })
         .filter(Boolean);
 
-      // exclude the one-time initialization/backfill run(s): a normal run
-      // handles a handful of new offers, the backfill handles hundreds.
-      // dropping it keeps the linear charts readable.
-      const BACKFILL_THRESHOLD = 100;
+      // the one-time backfill dwarfs normal runs; keep charts on daily scale
       const runs = allRuns.filter(r => (r.new ?? 0) <= BACKFILL_THRESHOLD);
 
       if (runs.length === 0) {
         document.getElementById("subtitle").textContent =
-          allRuns.length ? "Only the initial backfill has run so far — waiting for regular runs."
+          allRuns.length ? "Only the initial backfill has run — regular runs will appear here."
                          : "No runs recorded yet.";
         return;
       }
 
-      // full timestamps for tooltips (hover shows date + hour)
-      FULL_TS = runs.map(r => r.timestamp || "");
+      const latest = runs[runs.length - 1];
+      document.getElementById("subtitle").textContent =
+        `Last run ${fmtFull(latest.timestamp)} (Paris) · ${runs.length} runs tracked`;
 
-      // x-axis labels: show the date (MM-DD) only on the first run of each day,
-      // blank on every other run — hover a point to see its exact time.
-      let prevDay = null;
-      const labels = runs.map(r => {
-        const day = (r.timestamp || "").slice(0, 10);   // YYYY-MM-DD
-        if (day !== prevDay) {
-          prevDay = day;
-          return day.slice(5);                          // MM-DD at day start
-        }
-        return "";                                      // blank within the day
+      // ---------- KPIs ----------
+      const today = latest.timestamp.slice(0, 10);
+      const sum = (arr, k) => arr.reduce((a, r) => a + (r[k] ?? 0), 0);
+      document.getElementById("kpiRelevant").textContent = sum(runs, "relevant");
+      document.getElementById("kpiNewToday").textContent =
+        sum(runs.filter(r => r.timestamp.slice(0, 10) === today), "new");
+      document.getElementById("kpiStored").textContent = latest.stored ?? "–";
+      document.getElementById("kpiErrors").textContent = sum(runs.slice(-7), "errors");
+
+      // ---------- daily hero: total new offers per calendar day ----------
+      const byDay = new Map();
+      for (const r of runs) {
+        const d = r.timestamp.slice(0, 10);
+        byDay.set(d, (byDay.get(d) ?? 0) + (r.new ?? 0));
+      }
+      const days = [...byDay.keys()];
+      new Chart(document.getElementById("dailyChart"), {
+        type: "bar",
+        data: {
+          labels: days.map(d => d.slice(5)),
+          datasets: [{ data: days.map(d => byDay.get(d)),
+            backgroundColor: css("--blue") + "cc", borderRadius: 4,
+            maxBarThickness: 46 }],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { ticks: { color: css("--text") }, grid: { color: "transparent" } },
+            y: { ticks: { color: css("--muted"), precision: 0 },
+                 grid: { color: css("--line") }, beginAtZero: true },
+          },
+          plugins: { legend: { display: false } },
+        },
       });
 
-      lineChart("newChart",       "New",       runs.map(r => r.new ?? 0),       labels, "#4f8cff");
-      lineChart("relevantChart",  "Relevant",  runs.map(r => r.relevant ?? 0),  labels, "#42c98a");
-      lineChart("uncheckedChart", "Unchecked", runs.map(r => r.unchecked ?? 0), labels, "#f2b64c");
-      lineChart("errorsChart",    "Errors",    runs.map(r => r.errors ?? 0),    labels, "#ff5c5c");
+      // ---------- per-run charts ----------
+      FULL_TS = runs.map(r => r.timestamp || "");
+      let prevDay = null;
+      const labels = runs.map(r => {
+        const d = (r.timestamp || "").slice(0, 10);
+        if (d !== prevDay) { prevDay = d; return d.slice(5); }
+        return "";
+      });
 
-      // run timing: total, plus scraping and relevance breakdown
+      lineChart("newChart",       runs.map(r => r.new ?? 0),       labels, css("--blue"));
+      lineChart("relevantChart",  runs.map(r => r.relevant ?? 0),  labels, css("--amber"));
+      lineChart("uncheckedChart", runs.map(r => r.unchecked ?? 0), labels, css("--teal"));
+      lineChart("errorsChart",    runs.map(r => r.errors ?? 0),    labels, css("--red"));
+
+      // ---------- timing ----------
       new Chart(document.getElementById("timingChart"), {
         type: "line",
         data: {
           labels,
           datasets: [
-            { label: "Total", data: runs.map(r => r.total_time ?? 0), borderColor: "#c98af0", backgroundColor: "#c98af022", tension: 0.2, fill: true },
-            { label: "Scraping", data: runs.map(r => r.scraping_time ?? 0), borderColor: "#4f8cff", tension: 0.2 },
-            { label: "Relevance", data: runs.map(r => r.relevance_time ?? 0), borderColor: "#42c98a", tension: 0.2 },
+            { label: "Total",     data: runs.map(r => r.total_time ?? 0),
+              borderColor: css("--violet"), backgroundColor: css("--violet") + "22",
+              tension: 0.25, fill: true, borderWidth: 2 },
+            { label: "Relevance", data: runs.map(r => r.relevance_time ?? 0),
+              borderColor: css("--teal"), tension: 0.25, borderWidth: 1.5 },
+            { label: "Scraping",  data: runs.map(r => r.scraping_time ?? 0),
+              borderColor: css("--blue"), tension: 0.25, borderWidth: 1.5 },
           ],
         },
         options: {
-          responsive: true,
-          scales: { x: { ticks: { color: "#9aa0aa", maxRotation: 0, autoSkip: false } },
-                    y: { ticks: { color: "#9aa0aa" }, beginAtZero: true } },
-          plugins: { legend: { labels: { color: "#e6e8ec" } },
-                     tooltip: { callbacks: { title: tooltipTitle } } },
-          elements: { point: { radius: 2 } },
+          ...lineOpts(),
+          plugins: {
+            legend: { display: true, labels: { color: css("--muted"), boxWidth: 18 } },
+            tooltip: { callbacks: { title: tooltipTitle } },
+          },
         },
       });
 
-      // format an ISO timestamp as 'YYYY-MM-DD HH:MM:SS' (drop +02:00)
-      const fmt = ts => (ts || "").slice(0, 19).replace("T", " ");
-
-      // run-log table, newest first
-      const tbody = document.querySelector("#runTable tbody");
-      tbody.innerHTML = runs.slice().reverse().map(r => `
-        <tr>
-          <td>${fmt(r.timestamp)}</td>
+      // ---------- run log (newest first, day separators, errors in red) ----------
+      const body = document.getElementById("logBody");
+      let prevRowDay = null;
+      body.innerHTML = runs.slice().reverse().map(r => {
+        const d = (r.timestamp || "").slice(0, 10);
+        const dayStart = d !== prevRowDay;
+        prevRowDay = d;
+        const cls = [
+          (r.errors ?? 0) > 0 ? "err" : "",
+          dayStart ? "day-start" : "",
+        ].join(" ").trim();
+        const rel = r.relevant ?? 0;
+        return `<tr class="${cls}">
+          <td>${fmtFull(r.timestamp)}</td>
           <td class="num">${r.new ?? 0}</td>
-          <td class="num">${r.relevant ?? 0}</td>
+          <td class="num ${rel > 0 ? "rel" : ""}">${rel}</td>
           <td class="num">${r.unchecked ?? 0}</td>
           <td class="num">${r.errors ?? 0}</td>
-        </tr>`).join("");
+          <td class="num">${r.total_time ?? "–"}s</td>
+        </tr>`;
+      }).join("");
 
-      const latest = runs[runs.length - 1];
-      document.getElementById("subtitle").textContent =
-        `Last run: ${fmt(latest.timestamp)} (Paris time)`;
-      document.getElementById("status").textContent = `${runs.length} run(s) recorded.`;
+      for (const id of ["kpis", "heroPanel", "charts", "timingPanel", "logPanel"])
+        document.getElementById(id).hidden = false;
     }
 
     load();
