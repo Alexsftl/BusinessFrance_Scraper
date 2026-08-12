@@ -6,7 +6,7 @@
   <title>VIE Watcher — Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
     :root {
       --bg:      #0d1220;
@@ -162,6 +162,7 @@
   <script>
     const METRICS_URL = "metrics.jsonl";
     const BACKFILL_THRESHOLD = 100;
+    const HAS_CHART = typeof Chart !== "undefined";
 
     const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
     const fmtFull = ts => (ts || "").slice(0, 16).replace("T", " ");
@@ -169,8 +170,10 @@
     let FULL_TS = [];
     const tooltipTitle = items => fmtFull(FULL_TS[items[0].dataIndex]);
 
-    Chart.defaults.font.family = '"IBM Plex Mono", monospace';
-    Chart.defaults.font.size = 11;
+    if (HAS_CHART) {
+      Chart.defaults.font.family = '"IBM Plex Mono", monospace';
+      Chart.defaults.font.size = 11;
+    }
 
     const lineOpts = () => ({
       responsive: true,
@@ -189,6 +192,7 @@
     });
 
     function lineChart(id, data, labels, color) {
+      if (!HAS_CHART) return;
       new Chart(document.getElementById(id), {
         type: "line",
         data: { labels, datasets: [{ data, borderColor: color,
@@ -243,7 +247,7 @@
         byDay.set(d, (byDay.get(d) ?? 0) + (r.new ?? 0));
       }
       const days = [...byDay.keys()];
-      new Chart(document.getElementById("dailyChart"), {
+      if (HAS_CHART) new Chart(document.getElementById("dailyChart"), {
         type: "bar",
         data: {
           labels: days.map(d => d.slice(5)),
@@ -277,7 +281,7 @@
       lineChart("errorsChart",    runs.map(r => r.errors ?? 0),    labels, css("--red"));
 
       // ---------- timing ----------
-      new Chart(document.getElementById("timingChart"), {
+      if (HAS_CHART) new Chart(document.getElementById("timingChart"), {
         type: "line",
         data: {
           labels,
