@@ -40,3 +40,4 @@
 {"timestamp": "2026-08-12T13:10:34+02:00", "scraped": 346, "new": 13, "relevant": 0, "stored": 368, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.5, "relevance_time": 15.0, "total_time": 17.5, "errors": 0}
 {"timestamp": "2026-08-12T13:58:13+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 368, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.2, "relevance_time": 0.0, "total_time": 1.2, "errors": 0}
 {"timestamp": "2026-08-12T15:46:19+02:00", "scraped": 348, "new": 2, "relevant": 0, "stored": 370, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.0, "relevance_time": 1.1, "total_time": 4.1, "errors": 0}
+{"timestamp": "2026-08-12T17:14:13+02:00", "scraped": 353, "new": 6, "relevant": 0, "stored": 376, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.1, "relevance_time": 3.0, "total_time": 5.2, "errors": 0}
