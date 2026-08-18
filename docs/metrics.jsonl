@@ -83,3 +83,4 @@
 {"timestamp": "2026-08-18T13:40:14+02:00", "scraped": 282, "new": 1, "relevant": 0, "stored": 303, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.9, "relevance_time": 0.6, "total_time": 3.5, "errors": 0}
 {"timestamp": "2026-08-18T15:07:44+02:00", "scraped": 287, "new": 7, "relevant": 0, "stored": 310, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.4, "relevance_time": 3.6, "total_time": 7.1, "errors": 0}
 {"timestamp": "2026-08-18T15:56:54+02:00", "scraped": 292, "new": 5, "relevant": 0, "stored": 315, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.0, "relevance_time": 3.5, "total_time": 6.6, "errors": 0}
+{"timestamp": "2026-08-18T16:52:16+02:00", "scraped": 298, "new": 6, "relevant": 1, "stored": 321, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.0, "relevance_time": 3.6, "total_time": 7.0, "errors": 0}
