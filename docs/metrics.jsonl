@@ -92,3 +92,4 @@
 {"timestamp": "2026-08-19T09:53:38+02:00", "scraped": 264, "new": 3, "relevant": 0, "stored": 284, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.1, "relevance_time": 1.4, "total_time": 4.6, "errors": 0}
 {"timestamp": "2026-08-19T10:54:11+02:00", "scraped": 267, "new": 3, "relevant": 0, "stored": 287, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.8, "relevance_time": 1.6, "total_time": 4.4, "errors": 0}
 {"timestamp": "2026-08-19T11:49:21+02:00", "scraped": 269, "new": 2, "relevant": 1, "stored": 289, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 24.4, "total_time": 28.5, "errors": 0}
+{"timestamp": "2026-08-19T12:45:41+02:00", "scraped": 270, "new": 2, "relevant": 0, "stored": 291, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.2, "relevance_time": 2.0, "total_time": 4.2, "errors": 0}
