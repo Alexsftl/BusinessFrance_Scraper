@@ -113,3 +113,4 @@
 {"timestamp": "2026-08-20T17:48:55+02:00", "scraped": 278, "new": 6, "relevant": 1, "stored": 297, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.1, "relevance_time": 11.6, "total_time": 15.1, "errors": 0}
 {"timestamp": "2026-08-20T18:50:04+02:00", "scraped": 279, "new": 1, "relevant": 0, "stored": 298, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.8, "relevance_time": 0.7, "total_time": 4.5, "errors": 0}
 {"timestamp": "2026-08-20T19:45:21+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 298, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.8, "relevance_time": 0.0, "total_time": 1.8, "errors": 0}
+{"timestamp": "2026-08-20T20:58:46+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 298, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.6, "relevance_time": 0.0, "total_time": 1.7, "errors": 0}
