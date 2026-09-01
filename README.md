@@ -154,12 +154,11 @@ Sign up at cron-job.org, then **Create cronjob**:
 https://api.github.com/repos/<username>/<repo>/actions/workflows/watch.yml/dispatches
 ```
 
-**Schedule** — set the timezone to **Europe/Paris**, then choose weekdays
-(Mon–Fri), hours 8–20, and one or more minutes. Minute `17` alone runs once an
-hour; `7,27,47` runs three times an hour.
+**Schedule** — select the custom execution schedule tick and under "Expression Crontab" enter: 7 8-20 * * 1-5.
 
 **Advanced settings:**
 
+- **Timezone:** Chose the right one for you
 - **Request method:** `POST`
 - **Request body:**
   ```json
