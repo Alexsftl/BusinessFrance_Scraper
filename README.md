@@ -121,7 +121,58 @@ After this, it runs on its own — weekdays, roughly hourly, 08:00–20:00 Paris
 time — and each later run only checks the handful of new offers since the last
 one.
 
-### 6. Enable the dashboard (optional)
+6. Set up the schedule with cron-job.org
+
+GitHub's own schedule: trigger is unreliable — runs are frequently delayed by hours or dropped entirely when GitHub is under load. In practice an "hourly" schedule often delivers only one or two runs a day.
+
+The fix is to let an external scheduler trigger the workflow through GitHub's API. cron-job.org is free, fires on time, and lets you set the schedule directly in Paris time (so daylight saving is handled for you).
+
+a. Create a GitHub token
+
+GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token:
+
+Repository access: Only select repositories → your fork
+Permissions: Repository permissions → Actions: Read and write (the only permission needed)
+Expiration: set one, and note the date — when it lapses the scheduler stops silently
+
+Copy the token immediately; GitHub only shows it once.
+
+b. Create the cron job
+
+Sign up at cron-job.org, then Create cronjob:
+
+URL (replace with your username and repo name):
+
+https://api.github.com/repos/<username>/<repo>/actions/workflows/watch.yml/dispatches
+
+Schedule — set the timezone to Europe/Paris, then choose weekdays (Mon–Fri), hours 8–20, and one or more minutes. Minute 17 alone runs once an hour; 7,27,47 runs three times an hour.
+
+Advanced settings:
+
+Request method: POST
+Request body:
+json
+  {"ref":"main"}
+Headers:
+  Accept: application/vnd.github+json
+  Authorization: Bearer <your-token>
+  X-GitHub-Api-Version: 2022-11-28
+  Content-Type: application/json
+  User-Agent: vie-watcher-cron
+
+Leave the "HTTP authentication" user/password fields empty — the Authorization header handles authentication.
+
+The User-Agent header is easy to miss but required: GitHub rejects API requests without one, returning 403 Forbidden.
+
+c. Test it
+
+Hit Test run. Success is 204 No Content — GitHub returns an empty body on a successful dispatch, so "no content" is correct, not an error. A new run should appear in your Actions tab within seconds.
+
+If you get 401, the token is wrong or missing the Bearer  prefix. 403 is usually the missing User-Agent, or a token without Actions: Read and write. 404 usually means the workflow filename in the URL doesn't match .github/workflows/watch.yml.
+
+Runs triggered this way show as "Manually run by <you>" in the Actions tab rather than "Scheduled" — that's normal.
+
+### 7. Enable the dashboard (optional)
 
 To see the metrics dashboard:
 
