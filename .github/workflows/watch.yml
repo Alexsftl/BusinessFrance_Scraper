@@ -1,8 +1,6 @@
 name: VIE Watcher
 
 on:
-  schedule:
-    - cron: "17 6-19 * * 1-5"
   workflow_dispatch:
 
 permissions:
