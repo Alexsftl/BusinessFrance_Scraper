@@ -9,6 +9,16 @@
     "startBroadcastDate": "2026-09-02",
     "relevancy_check": "not_relevant"
   },
+  "245557": {
+    "organizationName": "SERAP INDUSTRIES",
+    "missionTitle": "Ingénieur industrialisation (H/F)",
+    "cityName": "VADODARA",
+    "countryName": "INDE",
+    "missionDescription": "• Entreprise :\nSERAP Industries, ETI Française ( 600 personnes), en développement continu (CA doublé en quelques années) recrute un ingénieur industrialisation pour sa filiale de production ( 100 personnes) en Inde.\n\nSERAP est le n°1 Mondial, des fabricants de refroidisseurs de lait et le n°1 français des fabricants de chais vinicole haut de gamme. Nous vous proposons de rejoindre un Groupe aux valeurs humaines développées, aimant travailler en équipe, qui souhaite booster l’activité de sa filiale indienne sur les 2 prochaines années.\n\nAu sein d’une équipe compétente et dynamique, avec un outil industriel performant, qui a su, en une dizaine d’années, positionner l’entreprise en tant que n°3 sur le marché Indien, et se développer fortement à l’exportation. La nouvelle usine à Halol, près de Vadodara (Gujarat) a été inaugurée en 2021. Spécialisés dans le travail de l’inox, nous y produisons différents types de refroidisseurs de lait (ouverts, fermés), ainsi que des cuves pour des process industriels (agro-alimentaire,…)\n\nPoste et missions:\n\nRattaché au Directeur industriel du site, vous serez en charge :\n- De l’industrialisation de nouveaux modèles de refroidisseurs de lait (création en Inde des gammes de production, installation de nouvelles machines, ajustement du flux physique de production dans l’atelier)\n- De l’accompagnement des chefs d’atelier dans son pilotage quotidien afin d’atteindre les objectifs ambitieux de notre budget.\n- De la participation aux chantiers nécessaires pour booster notre capacité de production à horizon 2 ans.\n- Mise à jour des données techniques liées à la production.\n• Vous disposerez du soutien fonctionnel de la maison mère.",
+    "missionProfile": "jeune ingénieur à dominante mécanique, diplômé depuis moins de deux ans, vous souhaitez acquérir une expérience dans une entreprise indienne de standard européen",
+    "startBroadcastDate": "2026-09-02",
+    "relevancy_check": "not_relevant"
+  },
   "245542": {
     "organizationName": "DAVIDSON NORD",
     "missionTitle": "Chargé(e) de Recrutement et de Missions RH (H/F)",
@@ -1397,7 +1407,7 @@
     "missionDescription": "Mission & Key Challenges:\r\n\r\nWorking as part of the Extia team in Bucharest, you will join a core engineering squad responsible for driving innovation and scaling high-impact digital applications. Your role focuses on delivering robust, maintainable code within a microservices ecosystem while actively participating in full-lifecycle product development.\r\n\r\n- Full-Stack Development: Design, build, and maintain scalable back-end services in Java (11+) & Spring Boot, while supporting front-end integration using React.js.\r\n- Architecture & API Design: Develop and secure RESTful APIs, contribute to technical design discussions, and work within microservices and event-driven architectures.\r\n- Quality & CI/CD Delivery: Write clean, tested code (JUnit/Mockito), participate in code reviews and Agile/Scrum ceremonies, and manage automated build/deployment pipelines (Jenkins, Git, Maven, Docker, Kubernetes).\r\n- Database & System Management: Optimize queries on relational databases (PostgreSQL/MySQL) and navigate Linux environments confidently using shell commands.",
     "missionProfile": "Candidate Profile:\n\nThis role requires a mid-to-senior level engineer capable of immediate technical autonomy.\n\n- Mandatory Professional Experience: Minimum of 3 years of hands-on production experience as a Fullstack or Back-End Software Engineer using Java (11+) and Spring Boot.\n- Front-End & Ecosystem Mastery: Demonstrated commercial experience with React.js (JavaScript/TypeScript). Strong proficiency with relational databases (PostgreSQL/MySQL), Linux environments, and CI/CD tools (Git, Maven, Docker, Kubernetes).\n- Language Requirements: B2 Level (Professional fluency) minimum in both French AND English. Must be capable of conducting technical discussions and writing documentation in both languages.\n- Engineering Standards: Proven experience in microservices, TDD/unit testing, API security, and Agile/Scrum methodologies. Strong autonomy, problem-solving skills, and commitment to clean code.",
     "startBroadcastDate": "2026-08-28",
-    "relevancy_check": "unchecked"
+    "relevancy_check": "not_relevant"
   },
   "237602": {
     "organizationName": "HCM CONSULTING PLUS",
