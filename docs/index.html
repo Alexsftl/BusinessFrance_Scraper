@@ -134,6 +134,19 @@
     .chart-box.tall { height: 240px; }
 
     /* ---------- heatmap ---------- */
+    .seg {
+      display: inline-flex; border: 1.5px solid var(--ink); border-radius: 6px;
+      overflow: hidden; margin-left: auto;
+    }
+    .seg button {
+      font: inherit; font-size: 12px; font-weight: 600;
+      padding: 3px 10px; border: 0; cursor: pointer;
+      color: var(--muted); background: var(--card);
+    }
+    .seg button + button { border-left: 1.5px solid var(--ink); }
+    .seg button:hover { color: var(--ink); }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+    .seg button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
     .heat { display: grid; grid-template-columns: 46px repeat(5, 1fr); gap: 3px; }
     .heat .hd { color: var(--muted); font-size: 12px; text-align: center; padding-bottom: 4px; }
     .heat .hr {
@@ -212,7 +225,12 @@
         <div>
           <div class="sec-head">
             <h2>Offer distribution</h2>
-            <span class="note">weekday and hour, Paris time</span>
+            <span class="note" id="heatNote">weekday and hour, Paris time</span>
+            <div class="seg" id="heatSeg" role="group" aria-label="Heatmap period">
+              <button type="button" data-mode="before" aria-pressed="false">before cron</button>
+              <button type="button" data-mode="after" aria-pressed="false">after cron</button>
+              <button type="button" data-mode="all" aria-pressed="true">all</button>
+            </div>
           </div>
           <div class="heat" id="heat"></div>
           <div class="heat-legend">
@@ -268,12 +286,13 @@
 
   <script>
     const METRICS_URL = "metrics.jsonl";
-    const BACKFILL_THRESHOLD = 100;   // runs with more new offers are the initial backfill
-    const STRIP_RUNS   = 100;         // ticks shown in the health strip
-    const DAILY_DAYS   = 45;          // bars shown in the daily chart
-    const DUR_RUNS     = 90;          // points shown in the duration chart
-    const LOG_ROWS     = 15;          // rows shown before "Show all runs"
-    const HOUR_START = 8, HOUR_END = 20;   // scrape window: 8h00 - 20h00 Paris
+    const BACKFILL_THRESHOLD = 100;   
+    const STRIP_RUNS   = 100;         
+    const DAILY_DAYS   = 45;          
+    const DUR_RUNS     = 90;         
+    const LOG_ROWS     = 15;       
+    const HOUR_START = 8, HOUR_END = 20;   
+    const CRON_START = "2026-09-01";  
     const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri"];
     const HAS_CHART = typeof Chart !== "undefined";
 
@@ -307,6 +326,32 @@
       const lo = [219, 227, 251], hi = [43, 79, 204];
       const mix = lo.map((c, i) => Math.round(c + (hi[i] - c) * Math.pow(t, 0.8)));
       return `rgb(${mix[0]},${mix[1]},${mix[2]})`;
+    }
+
+    function heatFilter(runs, mode) {
+      if (mode === "before") return runs.filter(r => (r.timestamp || "") <  CRON_START);
+      if (mode === "after")  return runs.filter(r => (r.timestamp || "") >= CRON_START);
+      return runs;
+    }
+
+    function initHeatmap(allHeatRuns) {
+      const seg = document.getElementById("heatSeg");
+      const note = document.getElementById("heatNote");
+      const render = mode => {
+        const subset = heatFilter(allHeatRuns, mode);
+        buildHeatmap(subset);
+        note.textContent = "weekday and hour, Paris time — " +
+          (mode === "before" ? `${subset.length} runs before cron-jobs`
+         : mode === "after"  ? `${subset.length} runs since cron-jobs`
+         : `all ${subset.length} runs`);
+        for (const b of seg.querySelectorAll("button"))
+          b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+      };
+      seg.addEventListener("click", e => {
+        const btn = e.target.closest("button[data-mode]");
+        if (btn) render(btn.dataset.mode);
+      });
+      render("all");
     }
 
     function buildHeatmap(runs) {
@@ -391,7 +436,11 @@
               borderColor: css("--ink"), backgroundColor: "rgba(22,34,47,0.07)",
               borderWidth: 2, tension: 0.3, fill: true,
               pointRadius: recent.map(r => (r.errors ?? 0) > 0 ? 4 : 0),
-              pointBackgroundColor: css("--red"), pointBorderColor: css("--red") },
+              pointHoverRadius: recent.map(r => (r.errors ?? 0) > 0 ? 5 : 3),
+              pointBackgroundColor: recent.map(r => (r.errors ?? 0) > 0 ? css("--red") : css("--ink")),
+              pointBorderColor: recent.map(r => (r.errors ?? 0) > 0 ? css("--red") : css("--ink")),
+              pointHoverBackgroundColor: recent.map(r => (r.errors ?? 0) > 0 ? css("--red") : css("--ink")),
+              pointHoverBorderColor: recent.map(r => (r.errors ?? 0) > 0 ? css("--red") : css("--ink")) },
             { label: "Relevance check", data: recent.map(r => clamp(r.relevance_time)),
               borderColor: css("--gold-mark"), borderWidth: 1.5, tension: 0.3, pointRadius: 0 },
             { label: "Scraping", data: recent.map(r => clamp(r.scraping_time)),
@@ -515,7 +564,7 @@
             .reduce((a, r) => a + (r.new ?? 0), 0);
       document.getElementById("kStored").textContent = latest.stored ?? "–";
       barChart(runs);
-      buildHeatmap(runs);
+      initHeatmap(runs);
 
       // ---------- duration ----------
       durationChart(runs);
