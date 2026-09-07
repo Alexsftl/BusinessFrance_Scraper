@@ -230,3 +230,4 @@
 {"timestamp": "2026-09-07T09:08:21+02:00", "scraped": 491, "new": 4, "relevant": 0, "stored": 544, "unchecked": 1, "initialization_time": 0.0, "scraping_time": 4.4, "relevance_time": 55.2, "total_time": 59.6, "errors": 1}
 {"timestamp": "2026-09-07T10:07:29+02:00", "scraped": 400, "new": 11, "relevant": 0, "stored": 555, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.1, "relevance_time": 7.2, "total_time": 10.3, "errors": 0}
 {"timestamp": "2026-09-07T11:07:25+02:00", "scraped": 400, "new": 6, "relevant": 0, "stored": 561, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.9, "relevance_time": 3.2, "total_time": 6.2, "errors": 0}
+{"timestamp": "2026-09-07T12:07:23+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 561, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.6, "relevance_time": 0.0, "total_time": 1.6, "errors": 0}
