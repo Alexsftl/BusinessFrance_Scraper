@@ -232,3 +232,4 @@
 {"timestamp": "2026-09-07T11:07:25+02:00", "scraped": 400, "new": 6, "relevant": 0, "stored": 561, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.9, "relevance_time": 3.2, "total_time": 6.2, "errors": 0}
 {"timestamp": "2026-09-07T12:07:23+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 561, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.6, "relevance_time": 0.0, "total_time": 1.6, "errors": 0}
 {"timestamp": "2026-09-07T13:07:20+02:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 562, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.2, "relevance_time": 0.6, "total_time": 2.9, "errors": 0}
+{"timestamp": "2026-09-07T14:07:30+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 562, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.7, "relevance_time": 0.1, "total_time": 2.1, "errors": 0}
