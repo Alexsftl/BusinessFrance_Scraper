@@ -333,3 +333,4 @@
 {"timestamp": "2026-09-17T08:10:01+02:00", "scraped": 394, "new": 11, "relevant": 0, "stored": 439, "unchecked": 2, "initialization_time": 0.0, "scraping_time": 3.0, "relevance_time": 156.9, "total_time": 159.9, "errors": 2}
 {"timestamp": "2026-09-17T09:07:27+02:00", "scraped": 394, "new": 6, "relevant": 1, "stored": 445, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.2, "relevance_time": 4.6, "total_time": 8.2, "errors": 0}
 {"timestamp": "2026-09-17T10:07:28+02:00", "scraped": 400, "new": 10, "relevant": 0, "stored": 455, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.5, "relevance_time": 5.2, "total_time": 7.7, "errors": 0}
+{"timestamp": "2026-09-17T11:07:25+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 459, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.1, "relevance_time": 2.2, "total_time": 5.3, "errors": 0}
