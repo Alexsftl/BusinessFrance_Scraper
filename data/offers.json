@@ -139,6 +139,56 @@
     "startBroadcastDate": "2026-10-01",
     "relevancy_check": "not_relevant"
   },
+  "246579": {
+    "organizationName": "CS GROUP - FRANCE",
+    "missionTitle": "AI Software Engineer – Aero (H/F)",
+    "cityName": "MONTREAL -QC",
+    "countryName": "CANADA",
+    "missionDescription": "Rejoignez notre équipe au Canada et participez au développement de solutions combinant IA générative, LLM, agents IA et systèmes distribués.\n\nCette mission VIE offre l’opportunité de travailler sur des projets technologiques à forte valeur ajoutée, notamment autour de l’intelligence artificielle, des grands modèles de langage (LLM) et des systèmes distribués, en collaboration avec des équipes multidisciplinaires.\n\nResponsabilités\nParticiper à la conception et à la mise en œuvre d’architectures logicielles robustes et maintenables.\nIntervenir à toutes les étapes du cycle de développement logiciel, incluant l’analyse des besoins, la conception, le développement, les essais, l’intégration et la maintenance.\nAppliquer les normes de codage, les procédures d’assurance qualité et les meilleures pratiques en génie logiciel.\nDévelopper des solutions logicielles adaptées aux besoins réels des utilisateurs en collaboration avec des équipes multidisciplinaires.\nContribuer au maintien et au déploiement des applications logicielles.\nParticiper à l’intégration de fonctionnalités basées sur l’intelligence artificielle au sein de logiciels en production.",
+    "missionProfile": "Expérience en développement logiciel orienté objet.\nMaîtrise des langages de programmation Python et Java.\nExpérience dans le développement d’applications distribuées.\nConnaissance de l’intégration d’agents d’intelligence artificielle ou de grands modèles de langage (LLM) dans des applications logicielles.\nConnaissance des architectures de génération augmentée par récupération (RAG).\nUne connaissance des flux de travail d’agents IA, des plateformes d’intégration de modèles ou des cadres d’orchestration de l’IA constitue un atout.\nMaîtrise des environnements Linux et Windows.\nUne connaissance des technologies de conteneurisation, telles que Docker, constitue un atout.\nExcellentes capacités d’analyse et de résolution de problèmes.",
+    "startBroadcastDate": "2026-10-01",
+    "relevancy_check": "relevant"
+  },
+  "246576": {
+    "organizationName": "CS GROUP - FRANCE",
+    "missionTitle": "Ingénieur logiciel - IA Advanced Mobility (H/F)",
+    "cityName": "MONTREAL -QC",
+    "countryName": "CANADA",
+    "missionDescription": "Rejoignez notre équipe au Canada et participez au développement de solutions combinant IA générative, LLM, agents IA et systèmes distribués.\n\nCette mission VIE offre l’opportunité de travailler sur des projets technologiques à forte valeur ajoutée, notamment autour de l’intelligence artificielle, des grands modèles de langage (LLM) et des systèmes distribués, en collaboration avec des équipes multidisciplinaires.\n\nResponsabilités\n\nParticiper à la conception et à la mise en œuvre d’architectures logicielles maintenables et évolutives.\nIntervenir à toutes les étapes du cycle de développement logiciel : analyse des besoins, conception, développement, tests, intégration, déploiement et maintenance.\nAppliquer les standards de développement, les processus d’assurance qualité et les bonnes pratiques en ingénierie logicielle.\nCollaborer avec des équipes multidisciplinaires afin de développer des solutions logicielles adaptées aux cas d’utilisation et aux besoins opérationnels réels.\nParticiper aux activités de maintenance, de dépannage, d’intégration et de déploiement des logiciels.\nContribuer à l’intégration de fonctionnalités basées sur l’intelligence artificielle dans des logiciels destinés à la production.\nParticiper au développement d’applications et de systèmes distribués.",
+    "missionProfile": "Expérience en développement logiciel orienté objet.\nMaîtrise des langages de programmation Python et Java.\nExpérience dans le développement d’applications distribuées.\nConnaissance de l’intégration d’agents d’intelligence artificielle et/ou de grands modèles de langage (LLM) dans des applications logicielles.\nConnaissance des flux de travail d’agents IA, des plateformes d’intégration de modèles ou des frameworks d’orchestration IA, gestion et de l’optimisation de la consommation de tokens.\nConnaissance des architectures RAG (Retrieval-Augmented Generation).\nConnaissance des technologies de conteneurisation, notamment Docker.\nBonne maîtrise des environnements Linux et Windows.\nExcellentes capacités d’analyse, de résolution de problèmes et de diagnostic.\nCapacité à travailler efficacement au sein d’une équipe multidisciplinaire et collaborative.",
+    "startBroadcastDate": "2026-10-01",
+    "relevancy_check": "relevant"
+  },
+  "246573": {
+    "organizationName": "CS GROUP - FRANCE",
+    "missionTitle": "INGÉNIEUR ÉTUDE EN DÉVELOPPEMENT, VÉRIFICATION ET VALIDATION DE LOGICIEL EN SYSTÈMES (H/F)",
+    "cityName": "MONTREAL -QC",
+    "countryName": "CANADA",
+    "missionDescription": "Présentation de la société :\n\nCS Group Canada, une filiale de CS Group, est un chef de file dans le développement et la certification de systèmes essentiels à la sécurité dans les industries de l'aérospatiale, de l'électricité et de la conduite autonome, et la Cybersécurité pour les entreprises développant des technologies embarquées critiques. Nos clients sont des OEM et des fournisseurs de premier rang dans les secteurs aérospatial, automobile, de la défense et ferroviaire, cherchant à obtenir les certifications de Sécurité Fonctionnelle (ISO 26262, DO-178C, DO-254, ARP-4761, ARP-4754, EN50128) et de cybersécurité (DO-326A, ISO 21434, UN-R155) pour commercialiser leurs technologies Description du post : CS Group Canada offre l'opportunité de rejoindre un groupe dynamique évoluant dans un secteur en constante croissance et de vivre l'expérience canadienne via un VIE pendant 2 ans.\n\nNous sommes à la recherche d'un Ingénieur Étude en Développement, Vérification et Validation de logiciel en systèmes embarqués.\n\nPoste et missions :\n\nLe candidat idéal aura 3 années d'expérience avec une bonne connaissance de l’ensemble du cycle en V. Missions principales :\n\nActivités de développement Contribuer à la préparation du plan de développement technique; Soutenir l'architecture logicielle de haut niveau d'un logiciel embarqué (en conformité avec la norme de développement DO-178C) ;\nRéaliser les différentes étapes du développement formel de logiciels (spécification, conception des composants et modules, codage et vérification) ;\nActivités de vérification et validation :\n\nEffectuer les tests logiciels conformément à la norme DO-178.\nDévelopper et exécuter les tests pertinents sur les plateformes de test afin de vérifier la justesse de la conception.\nAider à la traçabilité entre la conception logicielle et les tests.\nAider à la rédaction des documents techniques finaux.\nFournir un état clair et une charge de travail à votre responsable.\nParticiper à l'amélioration continue de la performance de l'équipe (qualité, efficacité, respect des délais).",
+    "missionProfile": "Diplôme en ingénierie étude, aéronautique, systèmes et réseaux ou domaine connexe.\n3 ans d'expérience en développement, en vérification et validation de logiciels embarqués\nConnaissance de la norme DO-178 C / DO-178B\nBonnes connaissances de Matlab/Simulink\nConnaissance des outils de tests Rational RTRT et/ou LDRA\nBonnes connaissances des protocoles de communication ARINC 429, CANbus et Power PC\nConnaissance du langage de programmation C",
+    "startBroadcastDate": "2026-10-01",
+    "relevancy_check": "not_relevant"
+  },
+  "246572": {
+    "organizationName": "CS GROUP - FRANCE",
+    "missionTitle": "ISO 21434 Cybersecurity Engineer (H/F)",
+    "cityName": "MONTREAL -QC",
+    "countryName": "CANADA",
+    "missionDescription": "Dans le cadre du développement de systèmes embarqués pour véhicules électriques et autonomes, vous contribuerez aux activités de cybersécurité automobile conformément à la norme ISO/SAE 21434, en support des équipes projet et des experts cybersécurité.\n\nResponsabilités principales\n\nParticiper à la mise en œuvre des activités de cybersécurité tout au long du cycle de développement produit conformément à l’ISO/SAE 21434.\nContribuer à l’analyse des exigences de cybersécurité et à leur déclinaison aux niveaux système, logiciel et matériel.\nParticiper aux activités d’analyse de risques cybersécurité (TARA – Threat Analysis and Risk Assessment) sous supervision d’experts.\nAider à l’identification des menaces, scénarios d’attaque et niveaux de risque associés aux systèmes embarqués.\nContribuer à la définition et au suivi des mesures de mitigation (cybersecurity controls) et exigences de sécurité.\nParticiper à la rédaction, la mise à jour et la traçabilité des livrables de cybersécurité.\nSupporter la mise en œuvre des concepts de sécurité (security concepts) et des exigences associées.\nContribuer aux activités de validation cybersécurité et aux revues techniques.\nParticiper à la préparation des dossiers de conformité et à la documentation pour audits internes ou clients.\nCollaborer avec les équipes systèmes, software, hardware et validation afin d’assurer l’intégration des exigences de cybersécurité.",
+    "missionProfile": "Formation en ingénierie (cybersécurité, systèmes embarqués, logiciel, électronique ou équivalent).\nIntérêt ou première expérience en cybersécurité embarquée ou automobile.\nConnaissances de base des concepts de sécurité (menaces, vulnérabilités, risques) appréciées.\nFamiliarité avec les normes ISO/SAE 21434 ou ISO 26262 est un atout.\nEsprit analytique, rigueur et capacité à travailler en environnement multi-équipe.\nBon niveau d’anglais technique requis.",
+    "startBroadcastDate": "2026-10-01",
+    "relevancy_check": "not_relevant"
+  },
+  "246571": {
+    "organizationName": "CS GROUP - FRANCE",
+    "missionTitle": "ISO 26262 Functional Safety Engineer (H/F)",
+    "cityName": "MONTREAL -QC",
+    "countryName": "CANADA",
+    "missionDescription": "Nous recherchons un Ingénieur Sûreté de Fonctionnement (FuSa Engineer) pour contribuer aux activités de sécurité fonctionnelle sur des systèmes embarqués complexes destinés aux véhicules électriques et autonomes. Sous la supervision d'experts en sécurité fonctionnelle, vous participerez à la mise en œuvre des exigences ISO 26262 tout au long du cycle de développement produit.",
+    "missionProfile": "Formation en ingénierie (électronique, logiciel embarqué, systèmes embarqués ou domaine connexe).\nConnaissance des principes de sécurité fonctionnelle et de la norme ISO 26262.\nPremière expérience ou stage dans le développement de systèmes embarqués, idéalement dans le secteur automobile.\nConnaissance des analyses de sûreté de fonctionnement (FMEA, FTA, HARA, FMEDA) appréciée.\nBonnes capacités d'analyse, de rédaction technique et de travail en équipe.\nAnglais professionnel requis.",
+    "startBroadcastDate": "2026-10-01",
+    "relevancy_check": "not_relevant"
+  },
   "244942": {
     "organizationName": "LYNXEO FRANCE",
     "missionTitle": "Group Transformation PMO Italy (H/F)",
