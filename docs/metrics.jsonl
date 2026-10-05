@@ -494,3 +494,4 @@
 {"timestamp": "2026-10-05T13:07:26+02:00", "scraped": 400, "new": 8, "relevant": 0, "stored": 552, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 4.5, "total_time": 7.1, "errors": 0}
 {"timestamp": "2026-10-05T14:07:28+02:00", "scraped": 400, "new": 5, "relevant": 0, "stored": 557, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.3, "relevance_time": 4.1, "total_time": 7.4, "errors": 0}
 {"timestamp": "2026-10-05T15:07:30+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 561, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.5, "relevance_time": 4.2, "total_time": 6.8, "errors": 0}
+{"timestamp": "2026-10-05T16:08:22+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 565, "unchecked": 2, "initialization_time": 0.0, "scraping_time": 1.9, "relevance_time": 61.4, "total_time": 63.3, "errors": 2}
