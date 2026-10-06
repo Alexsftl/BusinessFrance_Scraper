@@ -503,3 +503,4 @@
 {"timestamp": "2026-10-06T09:07:23+02:00", "scraped": 400, "new": 3, "relevant": 0, "stored": 521, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.4, "relevance_time": 2.3, "total_time": 4.7, "errors": 0}
 {"timestamp": "2026-10-06T10:07:22+02:00", "scraped": 400, "new": 2, "relevant": 0, "stored": 523, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.7, "relevance_time": 1.1, "total_time": 3.8, "errors": 0}
 {"timestamp": "2026-10-06T11:07:29+02:00", "scraped": 400, "new": 4, "relevant": 1, "stored": 527, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.8, "relevance_time": 2.2, "total_time": 6.5, "errors": 0}
+{"timestamp": "2026-10-06T12:07:27+02:00", "scraped": 400, "new": 6, "relevant": 0, "stored": 533, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.0, "relevance_time": 3.0, "total_time": 5.0, "errors": 0}
