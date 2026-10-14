@@ -583,3 +583,4 @@
 {"timestamp": "2026-10-14T12:07:27+02:00", "scraped": 400, "new": 13, "relevant": 0, "stored": 552, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.0, "relevance_time": 8.5, "total_time": 10.6, "errors": 0}
 {"timestamp": "2026-10-14T13:07:20+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 552, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.3, "relevance_time": 0.0, "total_time": 1.4, "errors": 0}
 {"timestamp": "2026-10-14T14:07:21+02:00", "scraped": 400, "new": 2, "relevant": 0, "stored": 554, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.0, "relevance_time": 1.4, "total_time": 3.4, "errors": 0}
+{"timestamp": "2026-10-14T15:07:23+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 558, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.4, "relevance_time": 2.2, "total_time": 4.6, "errors": 0}
