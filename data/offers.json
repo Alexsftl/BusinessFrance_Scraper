@@ -379,6 +379,16 @@
     "startBroadcastDate": "2026-10-15",
     "relevancy_check": "not_relevant"
   },
+  "247112": {
+    "organizationName": "FILOVENT",
+    "missionTitle": "Chef de projet Digitalisation & IA – Conciergerie & Expérience Client (H/F)",
+    "cityName": "BARCELONE",
+    "countryName": "ESPAGNE",
+    "missionDescription": "Nous créons un poste clé pour porter la digitalisation de la Conciergerie et de la relation client. Votre action portera sur deux plans : en interne, les outils et la productivité des équipes, et en externe, l’expérience digitale des voyageurs.\r\n\r\nCe poste ne se limite pas à exécuter des développements, et il ne s’agit pas non plus d’un rôle de product manager classique. Vous êtes à la fois concepteur et développeur. Vous partez des besoins réels des équipes et des clients, vous identifiez les problèmes et vous construisez vous-même les solutions. Vous êtes le référent de la digitalisation : vous pilotez les projets de bout en bout et accompagnez les équipes dans l’adoption des nouveaux outils, sans management hiérarchique.\r\n\r\nVos missions principales\r\n1. Digitaliser les opérations de la Conciergerie\r\n- Automatiser les tâches répétitives et connecter les systèmes existants (CRM, outil de ticketing, plateformes partenaires) via API et webhooks.\r\n- Développer des outils internes qui font gagner du temps aux équipes et fiabilisent leur travail au quotidien.\r\n\r\n2. Améliorer l’expérience client grâce au digital\r\n- Faire évoluer les espaces clients pour renforcer l’autonomie des voyageurs avant et pendant leur croisière.\r\n- Automatiser et personnaliser les communications clés tout au long du parcours voyageur.\r\n\r\n3. Piloter les projets de A à Z\r\n- Comprendre les besoins métier, prioriser, puis prototyper et développer les solutions.\r\n- Tester, déployer, mesurer l’impact et faire évoluer les outils en continu.\r\n\r\n4. Innover en continu\r\n- Exploiter l’IA (modèles, assistants, agents) pour améliorer les outils et les processus.\r\n- Assurer une veille sur les nouvelles technologies et proposer des pistes d’amélioration concrètes.",
+    "missionProfile": "Compétences techniques : \n- Vous avez une expérience concrète de développement en Python ou JavaScript.\n- Vous maîtrisez les API, les webhooks et les outils d’automatisation (n8n, Make, Zapier).\n- Vous pratiquez l’IA appliquée : API de modèles d’IA, conception de prompts, d’assistants et d’agents.\n- Vous savez développer, tester, déployer et maintenir vos solutions. Une connaissance de SQL, des CRM ou des applications web est un plus.\n\nCompétences produit et projet : \n- Vous savez mener un projet digital de l’analyse du besoin jusqu’au déploiement.\n- Vous avez un esprit analytique et savez vous organiser et prioriser.\n- Vous êtes autonome et curieux. Vous savez faire preuve de pédagogie aussi bien avec les profils techniques qu’avec les équipes métiers.\n\nAtouts : \n- Vous avez un anglais professionnel ; d’autres langues sont appréciées.\n- Une expérience dans le tourisme, le voyage ou le nautisme est un plus.",
+    "startBroadcastDate": "2026-10-15",
+    "relevancy_check": "not_relevant"
+  },
   "247014": {
     "organizationName": "HITACHI ENERGY FRANCE",
     "missionTitle": "INGÉNIEUR QUALITE (H/F)",
