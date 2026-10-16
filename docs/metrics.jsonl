@@ -602,3 +602,4 @@
 {"timestamp": "2026-10-15T18:08:12+02:00", "scraped": 400, "new": 12, "relevant": 0, "stored": 577, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.8, "relevance_time": 50.3, "total_time": 53.2, "errors": 0}
 {"timestamp": "2026-10-15T19:07:23+02:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 577, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.2, "relevance_time": 0.0, "total_time": 1.2, "errors": 0}
 {"timestamp": "2026-10-15T20:07:51+02:00", "scraped": 400, "new": 7, "relevant": 0, "stored": 584, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.7, "relevance_time": 29.0, "total_time": 31.8, "errors": 0}
+{"timestamp": "2026-10-16T08:07:50+02:00", "scraped": 400, "new": 4, "relevant": 0, "stored": 543, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 27.9, "total_time": 30.5, "errors": 0}
