@@ -862,3 +862,4 @@
 {"timestamp": "2026-11-12T19:07:20+01:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 539, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 0.8, "relevance_time": 0.0, "total_time": 0.9, "errors": 0}
 {"timestamp": "2026-11-12T20:07:20+01:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 539, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.1, "relevance_time": 0.0, "total_time": 1.2, "errors": 0}
 {"timestamp": "2026-11-13T09:07:24+01:00", "scraped": 399, "new": 1, "relevant": 0, "stored": 444, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.3, "relevance_time": 0.5, "total_time": 2.9, "errors": 0}
+{"timestamp": "2026-11-13T10:07:26+01:00", "scraped": 401, "new": 6, "relevant": 0, "stored": 450, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.4, "relevance_time": 3.5, "total_time": 7.0, "errors": 0}
