@@ -329,6 +329,26 @@
     "startBroadcastDate": "2026-11-16",
     "relevancy_check": "not_relevant"
   },
+  "248362": {
+    "organizationName": "VEOLIA ENVIRONNEMENT",
+    "missionTitle": "VIE/PANGEO Data Quality Expert (M/W) (H/F)",
+    "cityName": "VARSOVIE",
+    "countryName": "POLOGNE",
+    "missionDescription": "Description of the responsibilities: \n\n1. Creating a tool to monitor the quality of data coming from SCADA, DCS and telemetry systems - with the use of Eneffco, Looker or similar platforms\n2.Developing methods for real-time data quality checks: mass balance calculations, energy balance calculations, definitions of acceptable range for particular measurements - possibly with the help of AI\n3.Creating alerts and/or automatic correction formulas in order to feed reliable data into digital twin systems even in case of measurement errors or transmission interruptions\n\nWhat challenges can the PANGEO expect during his/her assignment?\n\nSetting static \"acceptable ranges\" often leads to false alarms during transient operational states (e.g., plant startup, shutdown, or load shifts). The PANGEO must design dynamic thresholds that adapt to real-time process states. Distinguishing between a faulty sensor (or transmission failure) and an actual operational issue (e.g., pipe leak or pressure drop) so that valid emergency process signals are not mistakenly \"corrected\" or smoothed out.",
+    "missionProfile": "Qualifications\nEducational background: Power Engineering, It in Engineering, Statistics, AI\n\nPrevious experience: First experience in energy sector, especially in districting heating and power generation\n\nSkills: \n\n1. Knowledge of the processes of energy production (especially combined heat and power generation) and distribution (especially district heating networks)\n\n2. Ability to work with large datasets\n\n3. Basic programming skills and familiarity with AI\n\n4. Analytic thinking, attention to detail, patience\n\nLanguages:  English, nice to have Polish",
+    "startBroadcastDate": "2026-11-16",
+    "relevancy_check": "not_relevant"
+  },
+  "248361": {
+    "organizationName": "EIFFAGE INTERNATIONAL",
+    "missionTitle": "INGENIEUR METHODES JUNIOR - DESSINATEUR HF (H/F)",
+    "cityName": "KRISTIANSAND",
+    "countryName": "NORVEGE",
+    "missionDescription": "Le projet : Eiffage, par l'intermédiaire de sa filiale Eiffage Génie Civil, s'est vu attribuer par Statens Vegvesen, une société détenue par le ministère norvégien des Transports, le contrat de conception-construction du nouveau tronçon de l'autoroute urbaine E18-E39 entre Gartnerløkka et Kolsdalen à Kristiansand, en Norvège, pour un montant de plus de 234 millions d'euros (2 755 millions de couronnes norvégiennes).\n\nSur le projet E18/39 Gartnerløkka – Kolsdalen \n\nVotre rôle: assister l'ingénieur méthodes et le projet en général pour obtenir les dessins, modèles 3D et présentations nécessaires pour se conformer aux exigences du contrat \n\nMissions: \n\n- Collaborer avec les ingénieurs méthodes et les concepteurs pour comprendre les exigences et les spécifications du projet.  \n \n- Créer des dessins techniques détaillés, des plans et des schémas à l'aide de logiciels de conception assistée par ordinateur (CAO) et de modèles 3D.   \n\n- Veiller à l'exactitude et à l'exhaustivité des dessins, en respectant les normes industrielles et les lignes directrices du projet.  \n\n- Incorporer les changements et les modifications de conception.  \n \n- Examiner et réviser les dessins pour résoudre les divergences ou les erreurs.  \n \n- Préparer et tenir à jour la documentation des dessins, y compris les révisions et les mises à jour.  \n\n- Assurer la coordination avec les autres membres de l'équipe afin de garantir l'achèvement des tâches de dessin dans les délais impartis\n\n- Aider à la préparation des décomptes de matériaux et des devis quantitatifs. \n\n- Communiquer efficacement avec l'équipe de projet pour clarifier les exigences et répondre aux préoccupations.",
+    "missionProfile": "très bon niveau d'anglais\nconnaissance du milieu de la Construction\nmaitrise d'Autocad et de REVIT",
+    "startBroadcastDate": "2026-11-16",
+    "relevancy_check": "not_relevant"
+  },
   "248253": {
     "organizationName": "LYNXEO FRANCE",
     "missionTitle": "Industry AI Adoption & Change Lead (H/F)",
