@@ -908,3 +908,4 @@
 {"timestamp": "2026-11-18T14:08:37+01:00", "scraped": 400, "new": 7, "relevant": 0, "stored": 517, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.6, "relevance_time": 67.3, "total_time": 69.0, "errors": 0}
 {"timestamp": "2026-11-18T15:07:45+01:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 518, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.0, "relevance_time": 7.5, "total_time": 10.6, "errors": 0}
 {"timestamp": "2026-11-18T16:07:29+01:00", "scraped": 400, "new": 1, "relevant": 0, "stored": 519, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.3, "relevance_time": 7.7, "total_time": 10.1, "errors": 0}
+{"timestamp": "2026-11-18T17:07:32+01:00", "scraped": 400, "new": 3, "relevant": 0, "stored": 522, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.4, "relevance_time": 9.7, "total_time": 11.1, "errors": 0}
