@@ -940,3 +940,4 @@
 {"timestamp": "2026-11-20T20:07:21+01:00", "scraped": 200, "new": 0, "relevant": 0, "stored": 476, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 0.7, "relevance_time": 0.0, "total_time": 0.8, "errors": 0}
 {"timestamp": "2026-11-23T08:07:35+01:00", "scraped": 394, "new": 11, "relevant": 0, "stored": 435, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 2.6, "relevance_time": 5.9, "total_time": 8.6, "errors": 0}
 {"timestamp": "2026-11-23T09:07:33+01:00", "scraped": 392, "new": 5, "relevant": 0, "stored": 440, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 3.3, "relevance_time": 3.2, "total_time": 6.5, "errors": 0}
+{"timestamp": "2026-11-23T10:07:26+01:00", "scraped": 399, "new": 7, "relevant": 0, "stored": 447, "unchecked": 0, "initialization_time": 0.0, "scraping_time": 1.8, "relevance_time": 3.8, "total_time": 5.6, "errors": 0}
